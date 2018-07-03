@@ -8,8 +8,8 @@ function sendForm() {
         
     //ユーザーの入力したデータを変数にセットする
     var taskname    = $("#form_name").val();            //タスク名
-    var date        = $("#form_date").val();             //期限日
-    var time        = $("#form_time").val();             //期限時間
+    var date        = $("#form_date").val();            //期限日
+    var time        = $("#form_time").val();            //期限時間
     var priority    = $("#form_priority").val();        //重要度
     var condition   = $("#form_condition").val();       //調子
     var days        = $("#form_days").val();            //記録数
@@ -19,6 +19,23 @@ function sendForm() {
     priority = Number(priority);
     days = Number(days);
     level = Number(level);
+
+    //期限までの日数を算出する
+    var today = new Date();
+    var setdate = new Date(date);
+	  var diff = setdate.getTime() - today.getTime();
+	  var kikan = Math.floor(diff / (1000 * 60 * 60 *24));
+    kikan++;
+
+    if(kikan<=10){
+      var sinsa = 1;
+    } 
+    else if(kikan<=21){
+      var sinsa = 2;
+    }
+    else{
+      var sinsa = 3;
+    }
     
     //期限日と時間を合わせる
     //var dateandtime = date+" "+time;   
@@ -47,17 +64,19 @@ function sendForm() {
                 .set("condition", condition)
                 .set("days", days)
                 .set("level", level)
+                .set("kikan", kikan)
+                .set("sinsa", sinsa)
                 .save()
                 .then(function(results){
                     //保存に成功した場合の処理
-                    alert("お問い合わせを受け付けました");
-                    console.log("お問い合わせを受け付けました");
+                    alert("モンスターが誕生しました");
+                    console.log("モンスターが誕生しました");
                     location.reload();
                 })
                 .catch(function(error){
                     //保存に失敗した場合の処理
-                    alert("受け付けできませんでした：\n" + error);
-                    console.log("受け付けできませんでした：\n" + error);
+                    alert("タスク送信ができませんでした：\n" + error);
+                    console.log("タスク送信ができませんでした：\n" + error);
                 });
     }
 }
@@ -85,36 +104,27 @@ function checkForm(){
             });
 }
 
-//------- [Demo3]日付を指定して検索し取得する -------//
-function checkDate(divider){
-    //データを変数にセット
-    var searchdate  = $("#search_date").val();
-    var searchtime  = $("#search_time").val();
-        
-    //検索用に二つの変数を合体
-    var dateandtime = searchdate+" "+searchtime;
-        
-    //Date型に変換
-    var date = new Date(dateandtime);
-    date.setHours(date.getHours() + 9); 
-        
+//------- 日々記録のためのデータを取得する -------//
+function checkDate(){
+    $("#judgeTable").empty();
+
     //インスタンスの生成
-    var saveData  = ncmb.DataStore("SaveData");
-        
-    //データの取得：三項演算子(条件 ? 真:偽)によって以前と以後の処理を分ける
-    (divider ? saveData.lessThanOrEqualTo("createDate", { "__type": "Date", "iso": date.toISOString() }) : saveData.greaterThanOrEqualTo("createDate", { "__type": "Date", "iso": date.toISOString() }))
-                       .order("createDate",true)
-                       .fetchAll()
-                       .then(function(results){
-                           //日付の検索に成功した場合の処理
-                           console.log("日付の検索に成功しました："+results.length+"件");
-                           setData(results);
-                       })
-                       .catch(function(error){
-                           //日付の検索に失敗した場合の処理
-                           alert("日付の検索に失敗しました：\n" + error);
-                           console.log("日付の検索に失敗しました：\n" + error);
-                       });
+    var saveData = ncmb.DataStore("SaveData");
+
+    //タスクのデータを取得する
+    saveData.fetchAll()
+            .then(function(results){
+                //全件検索に成功した場合の処理
+                console.log("全件検索に成功しました："+results.length+"件");
+                //テーブルにデータをセット
+                judData(results);
+            })
+            .catch(function(error){
+                //全件検索に失敗した場合の処理
+                alert("全件検索に失敗しました：\n" + error);
+                console.log("全件検索に失敗しました：\n" + error);
+            });
+    
 }
 
 //テーブルにデータをセットする処理
@@ -151,5 +161,85 @@ function setData(results) {
     $.mobile.changePage('#ListUpPage');
 }
 
+//テーブルに審査または日々記録を表示させる
+function judData(results){
+  //操作するテーブルへの参照を取得
+  var table = document.getElementById("judgeTable");
+  var head;
+    
+    //審査日か日々記録かを判別する
+    for(i=0; i<results.length; i++) {
+      var object = results[i];
+      var kikan = object.get("kikan");
+      var num = object.get("sinsa");
+      var limit = object.get("limit");
+      var createDate = object.get("createDate");
 
+      //今日が期限日までどのくらいの位置にいるか
+      kikan = Number(kikan);
+      limit = new Date(limit);
+      var today = new Date();
+      var Diff = limit.getTime() - today.getTime();
+	    var judday = Math.floor(Diff / (1000 * 60 * 60 *24));
+      judday++;
 
+      var perday = judday/kikan*100;
+
+      //審査回数別に分ける
+      if(kikan<=10){
+        if(perday >= 50 && num == 1){
+          sinsa();
+        } else{
+          kiroku();
+        }
+      }
+      else if(kikan<=21){
+        if((perday >= 30 && num == 2) || (perday >=70 && num == 1)){
+          sinsa();
+        } else{
+          kiroku();
+        }
+      }
+      else{
+        if((perday >= 30 && num == 3) || (perday >=60 && num == 2) || (perday >=90 && num == 1)){
+          sinsa();
+        } else{
+          kiroku();
+        }
+      }
+
+      //テーブルに行とセルを設定
+      var row      = table.insertRow(-1);
+      var cell     = row.insertCell(-1);
+                
+      table.rows[i].cells[0].innerHTML = "<h4>" + head + "</h4>";
+    }
+
+  function kiroku(){
+   head = "今日の進捗を教えてあげよう";
+  };
+  
+  function sinsa(){
+   head = "今日はモンスターの診断日だよ";
+      
+   //インスタンス
+   var saveData = ncmb.DataStore("SaveData");
+
+  //インスタンスにデータをセットする
+   saveData.equalTo("createDate", createDate)
+           .fetch()
+           .then(function(results){
+                results.set("sinsa", num);
+                return results.update(); // 保存したgameScoreオブジェクトを更新
+            　　 // 更新後の処理
+                alert("データが更新されました");
+                console.log("データが更新されました");
+                })
+           .catch(function(error){
+           //保存に失敗した場合の処理
+           alert("データの更新ができませんでした：\n" + error);
+           console.log("データの更新ができませんでした：\n" + error);
+           });        
+
+  }
+}
