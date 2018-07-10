@@ -189,6 +189,7 @@ function judData(results){
       if(kikan<=10){
         if(perday >= 50 && num == 1){
           sinsa();
+          
         } else{
           kiroku();
         }
@@ -226,15 +227,13 @@ function judData(results){
    var saveData = ncmb.DataStore("SaveData");
 
   //インスタンスにデータをセットする
-   saveData.equalTo("createDate", createDate)
-           .fetch()
-           .then(function(results){
-                results.set("sinsa", num);
-                return results.update(); // 保存したgameScoreオブジェクトを更新
-            　　 // 更新後の処理
-                alert("データが更新されました");
-                console.log("データが更新されました");
-                })
+   saveData.set("sinsa", num);
+            return saveData.update() // 保存したgameScoreオブジェクトを更新
+            // 更新後の処理
+            .then(function(result){
+            alert("データが更新されました");
+            console.log("データが更新されました");
+            })
            .catch(function(error){
            //保存に失敗した場合の処理
            alert("データの更新ができませんでした：\n" + error);
