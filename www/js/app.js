@@ -69,9 +69,7 @@ function sendForm() {
                 .save()
                 .then(function(results){
                     //保存に成功した場合の処理
-                    alert("モンスターが誕生しました");
-                    console.log("モンスターが誕生しました");
-                    location.reload();
+                    newmon(level);
                 })
                 .catch(function(error){
                     //保存に失敗した場合の処理
@@ -80,6 +78,42 @@ function sendForm() {
                 });
     }
 }
+
+//------ タスクモン誕生 ------//
+function newmon(level){
+  location.href="../newtask/birth01.html";
+  var moname = document.getElementById("moname");
+
+  if( level == 1 ){    
+    var chara = ncmb.DataStore("characters");
+
+    chara.equalTo("id", "1")
+         .fetchAll()
+         .then(function(results){
+           moname.innerHTML = results.get("name");
+         })
+  }
+  else if( level == 2 ){     
+    var chara = ncmb.DataStore("characters");
+    
+    chara.equalTo("id", "2")
+         .fetchAll()
+         .then(function(results){
+           moname.innerHTML = results.get("name");
+         })
+  }
+  else if( level == 3 ){     
+    var chara = ncmb.DataStore("characters");
+    
+    chara.equalTo("id", "3")
+         .fetchAll()
+         .then(function(results){
+           moname.innerHTML = results.get("name");
+         })
+  }
+ 
+}
+
 
 //------- [Demo2]保存したデータを全件検索し取得する-------//
 function checkForm(){

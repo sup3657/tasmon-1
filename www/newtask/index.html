@@ -16,18 +16,64 @@
 <body>
 <header>
 <h1>タスク入力</h1>
+<a href="../index.html">＜</a>
 </header>
 
-<div>
+<main>
+<!--タスク入力画面-->
+    <div data-role="page" id="FormPage" data-theme="t" align="left">
+        <form method="post">
 
-</div>
+         <section data-role="content">
+            <div id="form_txt">
+            <p>タスク名：<input type ="text" id="form_name"></p>
+            </div>
+
+            <div id="form_txt">
+            <p>期限日：<input type ="date" id="form_date"></p>
+            <input type ="time" id="form_time">
+            </div>
+
+            <div id="form_txt">
+            <p>重要度：<select id="form_priority">
+                       <option value="" selected>--選択--</option>
+                       <option value="1">1</option>
+                       <option value="2">2</option>
+                       <option value="3">3</option>
+                     </select>
+            </p>
+            </div>
+
+            <div id="non">
+             <div id="form_txt">調子
+                 <input type ="text" id="form_condition" value="y" size=40>
+             </div>
+                    
+             <div id="form_txt">記録数
+                <input type="text" id="form_days" value="0" size=40>
+             </div>
+                    
+             <div id="form_txt">進化段階
+                <input type="text" id="form_level" value="1" size=40>
+             </div>
+            </div> 
+
+            <!--送信ボタン-->
+            <input type="button" name="SendBtn" onclick="sendForm();" value="完了" data-theme="e">
+         </section>
+                
+        </form>
+    </div>
+</main>
 
 <footer>
-<a href="../index.html">ホーム</a>
-<a href="index.html">タスク入力</a>
-<a href="../ichiran/index.html">タスク一覧</a>
-<a href="../index.html">日々記録</a>
-<a href="../collection/index.html">コレクション</a>
+<ul>
+ <li><a href="../index.html">ホーム</a></li>
+ <li><a href="index.html">タスク入力</a></li>
+ <li><a href="../ichiran/index.html" onclick="checkForm();">タスク一覧</a></li>
+ <li><a href="../index.html" onclick="checkDate();">日々記録</a></li>
+ <li><a href="../collection/index.html">コレクション</a></li>
+</ul>
 </footer>
 </body>
 </html>

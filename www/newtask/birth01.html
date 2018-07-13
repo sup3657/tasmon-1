@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src *; img-src *; frame-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline' *;">
+        <script src="../components/loader.js"></script>
+        <link rel="stylesheet" href="../components/loader.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../js/cssua.min.js"></script>
+        <script src="../js/modal.js"></script>
+        <script src="../js/app.js"></script>
+        <title>tasmon|タスク入力</title>
+    </head>
+
+<body>
+<header>
+<h1>タスク入力</h1>
+</header>
+
+<main>
+
+<!-- 誕生中 -->
+<section id="Numone">
+ <div id="modal-content" style="left: 338px; top: 549px; display: none;">
+   <p>モンスター誕生</p>
+   <a id="modal-close" class="button-link">OK</a>
+ </div>
+ <p>準備中・・・<p>
+ <p>何かのタマゴが産み落とされたようです</p>
+ <a id="modal-open" class="button-link">タマゴ</a>
+</section>
+
+<!-- 誕生 -->
+<section id="Numtwo">
+ <div>
+   <p>新しいタスモンが誕生しました！</p>
+ </div>
+ <p id="moname"></p>
+ <a href="#Numthr">OK</a>
+</section>
+
+<!-- タスク紹介 -->
+<section id="Numthr">
+  <div id="mondetail"></div>
+  <a href="index.html">閉じる</a>
+</section>
+
+
+</main>
+
+<footer>
+<ul>
+ <li><a href="../index.html">ホーム</a></li>
+ <li><a href="index.html">タスク入力</a></li>
+ <li><a href="../ichiran/index.html" onclick="checkForm();">タスク一覧</a></li>
+ <li><a href="../index.html" onclick="checkDate();">日々記録</a></li>
+ <li><a href="../collection/index.html">コレクション</a></li>
+</ul>
+</footer>
+</body>
+</html>
