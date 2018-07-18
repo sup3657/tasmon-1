@@ -69,7 +69,8 @@ function sendForm() {
                 .save()
                 .then(function(results){
                     //保存に成功した場合の処理
-                    newmon(level);
+                    newmon(priority);
+                    location.href="#Birth01Page";
                 })
                 .catch(function(error){
                     //保存に失敗した場合の処理
@@ -79,39 +80,21 @@ function sendForm() {
     }
 }
 
-//------ タスクモン誕生 ------//
-function newmon(level){
-  location.href="../newtask/birth01.html";
-  var moname = document.getElementById("moname");
+//------ タスモン誕生 ------//
+function newmon(priority){
+ var monname;
 
-  if( level == 1 ){    
-    var chara = ncmb.DataStore("characters");
+ if( priority == 1 ){    
+    monname = "ボルボックス";
+  }
+  else if( priority == 2 ){     
+    monname = "マルマックス";
+  }
+  else if( priority == 3 ){     
+    monname = "サクサックス";
+  }
 
-    chara.equalTo("id", "1")
-         .fetchAll()
-         .then(function(results){
-           moname.innerHTML = results.get("name");
-         })
-  }
-  else if( level == 2 ){     
-    var chara = ncmb.DataStore("characters");
-    
-    chara.equalTo("id", "2")
-         .fetchAll()
-         .then(function(results){
-           moname.innerHTML = results.get("name");
-         })
-  }
-  else if( level == 3 ){     
-    var chara = ncmb.DataStore("characters");
-    
-    chara.equalTo("id", "3")
-         .fetchAll()
-         .then(function(results){
-           moname.innerHTML = results.get("name");
-         })
-  }
- 
+ $("#moname").innerHTML = monname;
 }
 
 

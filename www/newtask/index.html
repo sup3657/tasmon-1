@@ -21,8 +21,8 @@
 
 <main>
 <!--タスク入力画面-->
-    <div data-role="page" id="FormPage" data-theme="t" align="left">
-        <form method="post">
+  <div data-role="page" id="FormPage" data-theme="t" align="left">
+    <form method="post" class="form">
 
          <section data-role="content">
             <div id="form_txt">
@@ -62,8 +62,37 @@
             <input type="button" name="SendBtn" onclick="sendForm();" value="完了" data-theme="e">
          </section>
                 
-        </form>
-    </div>
+    </form>
+  </div>
+
+<!-- 誕生中 -->
+<div data-role="page" id="Birth01Page" data-theme="t" align="left">
+ <div id="modal-content" style="left: 338px; top: 549px; display: none;">
+   <p>モンスター誕生</p>
+   <a id="modal-close" class="button-link" href="#Birth02Page">OK</a>
+ </div>
+ <p>準備中・・・<p>
+ <p>何かのタマゴが産み落とされたようです</p>
+ <a id="modal-open" class="button-link">タマゴ</a>
+</div>
+
+<!-- 誕生 -->
+<div data-role="page" id="Birth02Page" data-theme="t" align="left">
+ <div>
+   <p>新しいタスモンが誕生しました！</p>
+ </div>
+ <div id="moname"></div>
+ <a href="#Birth03Page">OK</a>
+</div>
+
+<!-- タスク紹介 -->
+<div data-role="page" id="Birth03Page" data-theme="t" align="left">
+  <div id="mondetail"></div>
+  <a href="../index.html">閉じる</a>
+</div>
+
+
+
 </main>
 
 <footer>

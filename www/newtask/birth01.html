@@ -14,7 +14,7 @@
         <title>tasmon|タスク入力</title>
     </head>
 
-<body>
+<body onload="onname();">
 <header>
 <h1>タスク入力</h1>
 </header>
@@ -25,7 +25,7 @@
 <section id="Numone">
  <div id="modal-content" style="left: 338px; top: 549px; display: none;">
    <p>モンスター誕生</p>
-   <a id="modal-close" class="button-link">OK</a>
+   <a id="modal-close" class="button-link" onclick="newmon()">OK</a>
  </div>
  <p>準備中・・・<p>
  <p>何かのタマゴが産み落とされたようです</p>
@@ -37,7 +37,7 @@
  <div>
    <p>新しいタスモンが誕生しました！</p>
  </div>
- <p id="moname"></p>
+ <div id="moname"></div>
  <a href="#Numthr">OK</a>
 </section>
 
