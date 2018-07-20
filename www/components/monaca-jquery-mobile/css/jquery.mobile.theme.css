@@ -610,24 +610,23 @@
 .ui-body-e button {
 	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
-.ui-body-e .ui-link-inherit {
-	color: 	#222 /*{e-body-color}*/;
+/*.ui-body-e .ui-link-inherit {
+	color: 	#222 /*{e-body-color};
 }
-.ui-body-e .ui-link {
-	color: #2489ce /*{e-body-link-color}*/;
+ .ui-body-e .ui-link {
+	color: #2489ce /*{e-body-link-color};
 	font-weight: bold;
 }
 .ui-body-e .ui-link:visited {
-    color: #2489ce /*{e-body-link-visited}*/;
+    color: #2489ce /*{e-body-link-visited};
 }
 .ui-body-e .ui-link:hover {
-	color: #2489ce /*{e-body-link-hover}*/;
+	color: #2489ce /*{e-body-link-hover};
 }
 .ui-body-e .ui-link:active {
-	color: #2489ce /*{e-body-link-active}*/;
-}
+	color: #2489ce /*{e-body-link-active};
+} */
 .ui-btn-up-e {
-	border: 1px solid 		#200456 /*{e-bup-border}*/;
 	background: 			#200456 /*{e-bup-background-color}*/;
 	color: 					#fff /*{e-bup-color}*/;
 	text-shadow: 0 /*{e-bup-shadow-x}*/ 1px /*{e-bup-shadow-y}*/ 0 /*{e-bup-shadow-radius}*/ 	#fff /*{e-bup-shadow-color}*/;
@@ -679,7 +678,7 @@ a.ui-link-inherit {
 }
 /* Active class used as the "on" state across all themes
 -----------------------------------------------------------------------------------------------------------*/
-.ui-btn-active {
+/* .ui-btn-active {
 	border: 1px solid 		#2373a5 /*{global-active-border}*/;
 	background: 			#5393c5 /*{global-active-background-color}*/;
 	font-weight: bold;
@@ -693,8 +692,8 @@ a.ui-link-inherit {
 	background-image:     -ms-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* IE10 */
 	background-image:      -o-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* Opera 11.10+ */
 	background-image:         linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/);
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
-}
+	font-family: Helvetica, Arial, sans-serif /*{global-font-family};
+} */
 .ui-btn-active:visited,
 .ui-btn-active:hover,
 .ui-btn-active a.ui-link-inherit {

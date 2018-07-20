@@ -6,11 +6,11 @@ $("#modal-open").click( function(){
 	//キーボード操作などにより、オーバーレイが多重起動するのを防止する
 	$( this ).blur() ;	//ボタンからフォーカスを外す
 	if( $( "#modal-overlay" )[0] ) return false ;		//新しくモーダルウィンドウを起動しない (防止策1)
-	//if($("#modal-overlay")[0]) $("#modal-overlay").remove() ;		//現在のモーダルウィンドウを削除して新しく起動する (防止策2)
+	if($("#modal-overlay")[0]) $("#modal-overlay").remove() ;		//現在のモーダルウィンドウを削除して新しく起動する (防止策2)
 
-	//オーバーレイを出現させる
-	// $( "body" ).append( '<div id="modal-overlay"></div>' ) ;
-	// $( "#modal-overlay" ).fadeIn( "slow" ) ;
+	オーバーレイを出現させる
+	 $( "body" ).append( '<div id="modal-overlay"></div>' ) ;
+	 $( "#modal-overlay" ).fadeIn( "slow" ) ;
 
 	//コンテンツをセンタリングする
 	centeringModalSyncer() ;

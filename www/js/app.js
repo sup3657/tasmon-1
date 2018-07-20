@@ -150,6 +150,7 @@ function setData(results) {
     var table = document.getElementById("formTable");
         for(i=0; i<results.length; i++) {
             var object = results[i];
+
             var year     = object.get("limit").slice(0,4);      //YYYYを取り出す
             var month    = object.get("limit").slice(5,7);      //MMを取り出す
             var day      = object.get("limit").slice(8,10);     //DDを取り出す            
@@ -159,13 +160,21 @@ function setData(results) {
             //hourが協定時間なので、現地時間（+09:00）となるようにする
             var datehour = new Date(hour);  //hourをDate型に変換
             var jsthour  = datehour.getHours();  //datehourを現地時間にする
-            var jstDate  = year + "/" + month + "/" + day + " " + hour +":"+ minute;
+            var jstDate  = year + "." + month + "." + day ;
+
+            //期限までの日数を算出する
+            var date = object.get("limit");
+            var today = new Date();
+            var setdate = new Date(date);
+	          var diff = setdate.getTime() - today.getTime();
+	          var last = Math.floor(diff / (1000 * 60 * 60 *24));
+            last++;
                 
             //テーブルに行とセルを設定
             var row      = table.insertRow(-1);
             var cell     = row.insertCell(-1);
                 
-            formTable.rows[i].cells[0].innerHTML = jstDate + "<br>" + "タスク名：　" + object.get("taskname") +"<br>" +"重要度："+object.get("priority");
+            formTable.rows[i].cells[0].innerHTML = "残り" + last + "日" + "<br>" + object.get("taskname") +"<br>" + "期限:" + jstDate + "<br>" +"重要度："+object.get("priority");
         }
     var searchResult = document.getElementById("searchResult");
     searchResult.innerHTML = "タスク数："+results.length+"件";

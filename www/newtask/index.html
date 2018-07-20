@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="../js/cssua.min.js"></script>
         <script src="../js/app.js"></script>
+        <script src="../js/modal.js"></script>
         <title>tasmon|タスク入力</title>
     </head>
 
@@ -31,7 +32,6 @@
 
             <div id="form_txt">
             <p>期限日：<input type ="date" id="form_date"></p>
-            <input type ="time" id="form_time">
             </div>
 
             <div id="form_txt">
@@ -56,6 +56,9 @@
              <div id="form_txt">進化段階
                 <input type="text" id="form_level" value="1" size=40>
              </div>
+
+             <input type ="time" id="form_time" value="23:59">
+
             </div> 
 
             <!--送信ボタン-->
@@ -92,13 +95,7 @@
 
  <!-- フッター -->
  <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
-  <ul>
-    <li><a href="../index.html">ホーム</a></li>
-    <li><a href="">タスク入力</a></li>
-    <li><a href="../ichiran/index.html" onclick="checkForm();">タスク一覧</a></li>
-    <li><a href="../kiroku/index.html" onclick="checkDate();">日々記録</a></li>
-    <li><a href="../collection/index.html">コレクション</a></li>
-  </ul>
+
   </div>
 </div>
 
@@ -116,13 +113,7 @@
 
  <!-- フッター -->
  <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
-  <ul>
-    <li><a href="../index.html">ホーム</a></li>
-    <li><a href="">タスク入力</a></li>
-    <li><a href="../ichiran/index.html" onclick="checkForm();">タスク一覧</a></li>
-    <li><a href="../kiroku/index.html" onclick="checkDate();">日々記録</a></li>
-    <li><a href="../collection/index.html">コレクション</a></li>
-  </ul>
+
   </div>
 </div>
 
