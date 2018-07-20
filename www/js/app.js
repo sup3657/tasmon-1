@@ -248,6 +248,7 @@ function judData(results){
   
   function sinsa(){
    head = "今日はモンスターの診断日だよ";
+   num--;
       
    //インスタンス
    var saveData = ncmb.DataStore("SaveData");
