@@ -97,6 +97,11 @@ function newmon(priority){
  $("#moname").innerHTML = monname;
 }
 
+//----- たまごクリック -----//
+function birth(){
+  alert("タスモン誕生");
+}
+
 
 //------- [Demo2]保存したデータを全件検索し取得する-------//
 function checkForm(){
@@ -174,10 +179,8 @@ function setData(results) {
             var row      = table.insertRow(-1);
             var cell     = row.insertCell(-1);
                 
-            formTable.rows[i].cells[0].innerHTML = "残り" + last + "日" + "<br>" + object.get("taskname") +"<br>" + "期限:" + jstDate + "<br>" +"重要度："+object.get("priority");
+            formTable.rows[i].cells[0].innerHTML = "<p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p>";
         }
-    var searchResult = document.getElementById("searchResult");
-    searchResult.innerHTML = "タスク数："+results.length+"件";
         
     //セットするデータが無かった場合
     if(results.length == 0){

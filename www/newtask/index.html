@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="../js/cssua.min.js"></script>
         <script src="../js/app.js"></script>
-        <script src="../js/modal.js"></script>
+        <!-- <script src="../js/modal.js"></script> -->
         <title>tasmon|タスク入力</title>
     </head>
 
@@ -85,18 +85,13 @@
   <h1>タスク入力</h1>
   </header>
 
- <div id="modal-content" style="left: 338px; top: 549px; display: none;">
-   <p>モンスター誕生</p>
-   <a id="modal-close" class="button-link" href="#Birth02Page">OK</a>
- </div>
  <p>準備中・・・<p>
  <p>何かのタマゴが産み落とされたようです</p>
- <a id="modal-open" class="button-link">タマゴ</a>
+ <a href="#Birth02Page" onclick="birth();"><img src="../img/tamago.png" width="200px" height="auto" alt="たまご"></a>
 
  <!-- フッター -->
  <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
-
-  </div>
+ </div>
 </div>
 
 <!-- 誕生 -->
@@ -109,12 +104,13 @@
    <p>新しいタスモンが誕生しました！</p>
  </div>
  <div id="moname"></div>
+ <img src="" alt=>
  <a href="#Birth03Page">OK</a>
 
  <!-- フッター -->
  <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
 
-  </div>
+ </div>
 </div>
 
 <!-- タスク紹介 -->
@@ -137,8 +133,6 @@
   </ul>
   </div>
 </div>
-
-
 
 </main>
 </body>
