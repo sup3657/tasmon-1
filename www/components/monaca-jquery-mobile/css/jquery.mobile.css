@@ -565,8 +565,8 @@
 /* E
 -----------------------------------------------------------------------------------------------------------*/
 .ui-bar-e {
-	border: 1px solid 		#f7c942 /*{e-bar-border}*/;
-	background: 			#fadb4e /*{e-bar-background-color}*/;
+	border: 1px solid 		#200456 /*{e-bar-border}*/;
+	background: 			#200456 /*{e-bar-background-color}*/;
 	color: 					#333 /*{e-bar-color}*/;
 	font-weight: bold;
 	text-shadow: 0 /*{e-bar-shadow-x}*/ 1px /*{e-bar-shadow-y}*/ 0 /*{e-bar-shadow-radius}*/ 	#fff /*{e-bar-shadow-color}*/;
@@ -640,17 +640,17 @@
 .ui-body-e .ui-link:active {
 	color: #2489ce /*{e-body-link-active}*/;
 }
-.ui-btn-up-e {
-	border: 1px solid 		#200456 /*{e-bup-border}*/;
-	background: 			#200456 /*{e-bup-background-color}*/;
-	font-weight: bold;
-	color: 					#222 /*{e-bup-color}*/;
-	text-shadow: 0 /*{e-bup-shadow-x}*/ 1px /*{e-bup-shadow-y}*/ 0 /*{e-bup-shadow-radius}*/ 	#fff /*{e-bup-shadow-color}*/;
-	}
+/* .ui-btn-up-e { */
+	/* border: 1px solid 		#200456 /*{e-bup-border}*/; */
+  /* background: 			#200456 /*{e-bup-background-color};
+	/* font-weight: bold;
+	color: 					#222 /*{e-bup-color};
+	/* text-shadow: 0 /*{e-bup-shadow-x} 1px /*{e-bup-shadow-y} 0 /*{e-bup-shadow-radius}*/ 	#fff /*{e-bup-shadow-color};
+/*}
 .ui-btn-up-e:visited,
 .ui-btn-up-e a.ui-link-inherit {
-	color: 					#222 /*{e-bup-color}*/;
-}
+	color: 					#222 /*{e-bup-color};
+}*/
 .ui-btn-hover-e {
 	border: 1px solid 		#200456 /*{e-bhover-border}*/;
 	background: 			#200456 /*{e-bhover-background-color}*/;
@@ -692,20 +692,20 @@ a.ui-link-inherit {
 /* Active class used as the "on" state across all themes
 -----------------------------------------------------------------------------------------------------------*/
 .ui-btn-active {
-	border: 1px solid 		#2373a5 /*{global-active-border}*/;
-	background: 			#5393c5 /*{global-active-background-color}*/;
+	/*border: 1px solid 		#2373a5 /*{global-active-border};*/
+	background: 			#200456 /*{global-active-background-color}*/;
 	font-weight: bold;
 	color: 					#fff /*{global-active-color}*/;
 	cursor: pointer;
 	text-shadow: 0 /*{global-active-shadow-x}*/ 1px /*{global-active-shadow-y}*/ 0 /*{global-active-shadow-radius}*/ #3373a5 /*{global-active-shadow-color}*/;
 	text-decoration: none;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #5393c5 /*{global-active-background-start}*/), to( #6facd5 /*{global-active-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #5393c5 /*{global-active-background-start}*/, #6facd5 /*{global-active-background-end}*/);
-	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
+	/*background-image: -webkit-gradient(linear, left top, left bottom, from( #5393c5 /*{global-active-background-start}), to( #6facd5 /*{global-active-background-end})); /* Saf4+, Chrome */
+	/*background-image: -webkit-linear-gradient( #5393c5 /*{global-active-background-start}, #6facd5 /*{global-active-background-end}); /* Chrome 10+, Saf5.1+ */
+	/*background-image:    -moz-linear-gradient( #5393c5 /*{global-active-background-start}, #6facd5 /*{global-active-background-end}); /* FF3.6 */
+	/*background-image:     -ms-linear-gradient( #5393c5 /*{global-active-background-start}, #6facd5 /*{global-active-background-end}); /* IE10 */
+	/*background-image:      -o-linear-gradient( #5393c5 /*{global-active-background-start}, #6facd5 /*{global-active-background-end}); /* Opera 11.10+ */
+	/*background-image:         linear-gradient( #5393c5 /*{global-active-background-start}, #6facd5 /*{global-active-background-end});
+	/*font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 }
 .ui-btn-active:visited,
 .ui-btn-active:hover,
@@ -715,8 +715,8 @@ a.ui-link-inherit {
 /* button inner top highlight
 -----------------------------------------------------------------------------------------------------------*/
 .ui-btn-inner {
-	border-top: 1px solid 	#fff;
-	border-color: 			rgba(255,255,255,.3);
+	/* border-top: 1px solid 	#fff;
+	border-color: 			rgba(255,255,255,.3); */
 }
 /* corner rounding classes
 -----------------------------------------------------------------------------------------------------------*/

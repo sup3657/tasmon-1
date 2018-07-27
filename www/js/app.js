@@ -69,7 +69,7 @@ function sendForm() {
                 .save()
                 .then(function(results){
                     //保存に成功した場合の処理
-                    newmon(priority);
+                    console.log("タスク送信ができました");
                     location.href="#Birth01Page";
                 })
                 .catch(function(error){
@@ -253,22 +253,22 @@ function judData(results){
    head = "今日はモンスターの診断日だよ";
    num--;
       
-   //インスタンス
-   var saveData = ncmb.DataStore("SaveData");
+  //  //インスタンス
+  //  var saveData = ncmb.DataStore("SaveData");
 
-  //インスタンスにデータをセットする
-   saveData.set("sinsa", num);
-            return saveData.update() // 保存したgameScoreオブジェクトを更新
-            // 更新後の処理
-            .then(function(result){
-            alert("データが更新されました");
-            console.log("データが更新されました");
-            })
-           .catch(function(error){
-           //保存に失敗した場合の処理
-           alert("データの更新ができませんでした：\n" + error);
-           console.log("データの更新ができませんでした：\n" + error);
-           });        
+  // //インスタンスにデータをセットする
+  //  saveData.set("sinsa", num);
+  //           return saveData.update() // 保存したgameScoreオブジェクトを更新
+  //           // 更新後の処理
+  //           .then(function(result){
+  //           alert("データが更新されました");
+  //           console.log("データが更新されました");
+  //           })
+  //          .catch(function(error){
+  //          //保存に失敗した場合の処理
+  //          alert("データの更新ができませんでした：\n" + error);
+  //          console.log("データの更新ができませんでした：\n" + error);
+  //          });        
 
   }
 }
