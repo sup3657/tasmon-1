@@ -1,7 +1,7 @@
 //APIキーの設定とSDKの初期化
 var appKey    = "50a945c15520b92f21cf848ec99938676e5987bef7d8ab7f18b5cf9f78542210";
 var clientKey = "5995c27f953fa4fe7ee74fa1f35a343c2c6fdab7c74acb2a1da83cdcc71047a8";
-var ncmb    　= new NCMB(appKey,clientKey);
+var ncmb     = new NCMB(appKey,clientKey);
 
 // -------[Demo1]データをmBaaSに保存する -------//
 function sendForm() {
@@ -77,7 +77,7 @@ function sendForm() {
                     alert("タスク送信ができませんでした：\n" + error);
                     console.log("タスク送信ができませんでした：\n" + error);
                 });
-    }
+    };
 }
 
 //------ タスモン誕生 ------//

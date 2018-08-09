@@ -901,8 +901,8 @@ div.ui-mobile-viewport { overflow-x: hidden; }
 	padding-top: 0;
 }
 .ui-footer-fixed {
-	bottom: -1px;
-	padding-bottom: 1px;
+	bottom: 0;
+	padding-bottom: 0;
 }
 .ui-footer-fixed.ui-fixed-hidden {
 	bottom: 0;

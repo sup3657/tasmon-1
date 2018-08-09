@@ -565,7 +565,7 @@
 /* E
 -----------------------------------------------------------------------------------------------------------*/
 .ui-bar-e {
-	border: 1px solid 		#200456 /*{e-bar-border}*/;
+	border: none /*{e-bar-border}*/;
 	background: 			#200456 /*{e-bar-background-color}*/;
 	color: 					#333 /*{e-bar-color}*/;
 	font-weight: bold;
@@ -680,7 +680,7 @@
 .ui-btn-down-e {
 	font-family: Helvetica, Arial, sans-serif /*{global-font-family}*/;
 	text-decoration: none;
-  font-weight: bold;
+  font-weight: normal;
   color: #fff;
 }
 /* Structure */

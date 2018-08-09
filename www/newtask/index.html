@@ -6,11 +6,10 @@
         <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src *; img-src *; frame-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline' *;">
         <script src="../components/loader.js"></script>
-        <link rel="stylesheet" href="../components/loader.css">
+        <!-- <link rel="stylesheet" href="../components/loader.css"> -->
         <link rel="stylesheet" href="../css/style.css">
         <script src="../js/cssua.min.js"></script>
         <script src="../js/app.js"></script>
-        <!-- <script src="../js/modal.js"></script> -->
         <title>tasmon|タスク入力</title>
     </head>
 
@@ -62,17 +61,17 @@
             </div> 
 
             <!--送信ボタン-->
-            <input class="input" type="button" name="SendBtn" onclick=" return sendForm();" value="完了" data-theme="e">
+            <input type="button" name="SendBtn" onclick="sendForm();" value="完了" data-theme="e">
       </section>
 
       <!-- フッター -->
       <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
       <ul>
-       <li><a href="../index.html">ホーム</a></li>
-       <li><a href="">タスク入力</a></li>
-       <li><a href="../ichiran/index.html" onclick="checkForm();">タスク一覧</a></li>
-       <li><a href="../kiroku/index.html" onclick="checkDate();">日々記録</a></li>
-       <li><a href="../collection/index.html">コレクション</a></li>
+       <li><a href="../index.html"><img src="../img/buttom/bt_1.png" alt="ホーム"></a></li>
+       <li><a href="../ichiran/index.html" onclick="checkForm();"><img src="../img/buttom/bt_2.png" alt="タスク一覧"></a></li>
+       <li><img src="../img/buttom/bt_p3.png" alt="タスク入力"></a></li>
+       <li><a href="../kiroku/index.html" onclick="checkDate();"><img src="../img/buttom/bt_4.png" alt="日々記録"></a></li>
+       <li><a href="../collection/index.html"><img src="../img/buttom/bt_5.png" alt="コレクション"></a></li>
       </ul>
       </div>
 
@@ -124,13 +123,6 @@
 
  <!-- フッター -->
  <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
-  <ul>
-    <li><a href="../index.html">ホーム</a></li>
-    <li><a href="">タスク入力</a></li>
-    <li><a href="../ichiran/index.html" onclick="checkForm();">タスク一覧</a></li>
-    <li><a href="../kiroku/index.html" onclick="checkDate();">日々記録</a></li>
-    <li><a href="../collection/index.html">コレクション</a></li>
-  </ul>
   </div>
 </div>
 
