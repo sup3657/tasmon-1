@@ -97,11 +97,6 @@ function newmon(priority){
  $("#moname").innerHTML = monname;
 }
 
-//----- たまごクリック -----//
-function birth(){
-  alert("タスモン誕生");
-}
-
 
 //------- [Demo2]保存したデータを全件検索し取得する-------//
 function checkForm(){
