@@ -169,12 +169,10 @@ function setData(results) {
 	          var diff = setdate.getTime() - today.getTime();
 	          var last = Math.floor(diff / (1000 * 60 * 60 *24));
             last++;
-                
-            //テーブルに行とセルを設定
-            var row      = table.insertRow(-1);
-            var cell     = row.insertCell(-1);
-                
-            formTable.rows[i].cells[0].innerHTML = "<p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p>";
+
+            var txt = "<div><p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p></div>";
+
+            $("#formTable").append(txt);
         }
         
     //セットするデータが無かった場合
@@ -299,3 +297,51 @@ $(function() {
   }
  });
 });
+
+//------- コレクションの表示-------//
+function completeTask(){
+    $("#collTable").empty();
+        
+    //インスタンスの生成
+    var saveData = ncmb.DataStore("Completed");
+        
+    //データを降順で取得する
+    saveData.order("createDate")
+            .fetchAll()
+            .then(function(results){
+                //全件検索に成功した場合の処理
+                console.log("全件検索に成功しました："+results.length+"件");
+                //テーブルにデータをセット
+                setcoll(results);
+            })
+            .catch(function(error){
+                //全件検索に失敗した場合の処理
+                alert("全件検索に失敗しました：\n" + error);
+                console.log("全件検索に失敗しました：\n" + error);
+            });
+}
+//テーブルにデータをセットする処理
+function setcoll(results) {
+    //操作するテーブルへの参照を取得
+    var table = document.getElementById("collTable");
+        for(i=0; i<results.length; i++) {
+            var object = results[i];
+
+            var year     = object.get("createDate").slice(0,4);      //YYYYを取り出す
+            var month    = object.get("createDate").slice(5,7);      //MMを取り出す
+            var day      = object.get("createDate").slice(8,10);     //DDを取り出す            
+
+            var jstDate  = year + "年" + month + "月" + day + "日" ;
+                
+            var text = "<div><p>" + object.get("taskname") +"</p><p>" + "タスク完了日:" + jstDate + "</p></div>";
+
+            $("#collTable").append(text);
+        }
+        
+    //セットするデータが無かった場合
+    if(results.length == 0){
+        var table = document.getElementById("collTable");
+        collTable.innerHTML = "<br>" + "<center>" + "データはありません" + "</center>" + "<br>";   
+    }
+    $.mobile.changePage('#ListUpPage');
+}
