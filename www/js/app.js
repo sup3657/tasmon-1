@@ -190,10 +190,13 @@ function judData(results){
   //操作するテーブルへの参照を取得
   var table = document.getElementById("judgeTable");
   var head;
+  var mon;
+  var choice;
     
     //審査日か日々記録かを判別する
     for(i=0; i<results.length; i++) {
       var object = results[i];
+      var name = object.get("taskname");
       var kikan = object.get("kikan");
       var num = object.get("sinsa");
       var limit = object.get("limit");
@@ -208,11 +211,12 @@ function judData(results){
       judday++;
 
       var perday = judday/kikan*100;
+      perday = Math.round(perday);
 
       //審査回数別に分ける
       if(kikan<=10){
         if(perday >= 50 && num == 1){
-          sinsa();
+          sinsa(perday);
           
         } else{
           kiroku();
@@ -220,14 +224,14 @@ function judData(results){
       }
       else if(kikan<=21){
         if((perday >= 30 && num == 2) || (perday >=70 && num == 1)){
-          sinsa();
+          sinsa(perday);
         } else{
           kiroku();
         }
       }
       else{
         if((perday >= 30 && num == 3) || (perday >=60 && num == 2) || (perday >=90 && num == 1)){
-          sinsa();
+          sinsa(perday);
         } else{
           kiroku();
         }
@@ -237,15 +241,17 @@ function judData(results){
       var row      = table.insertRow(-1);
       var cell     = row.insertCell(-1);
                 
-      table.rows[i].cells[0].innerHTML = "<h4>" + head + "</h4>";
+      table.rows[i].cells[0].innerHTML ="<div id='kirokuIn'><img src ='../img/"+ mon +"'>"+"<h4>" + name + "</h4>"+"<p>"+head+"</p>"+ choice+"</div>";
     }
 
   function kiroku(){
-   head = "今日の進捗を教えてあげよう";
+   head = "今日のタスクの達成度はどれくらい？";
+   choice = "<p><input type='button' id='q1' name='q1' value='1'><input type='button' id='q1' name='q1' value='2'><input type='button' id='q1' name='q1' value='3'><input type='button' id='q1' name='q1' value='4'><input type='button' id='q1' name='q1' value='5'></p>"
   };
   
   function sinsa(){
-   head = "今日はモンスターの診断日だよ";
+   head = "運命の審査日";
+   choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='kekka();' value='達成'><input type='button' id='q2' name='q2' value='未達成'></p>"
    num--;
       
   //  //インスタンス
@@ -264,6 +270,32 @@ function judData(results){
   //          alert("データの更新ができませんでした：\n" + error);
   //          console.log("データの更新ができませんでした：\n" + error);
   //          });        
-
   }
 }
+
+//----- 記録後の調子変化 -----//
+$(function() {
+  $("#q1").click(function(){
+  var a = this.val();
+  if(a >= 3){
+    mon = 0;
+  } else{
+    mon = 1;
+  }
+  $("#kirokuIn").$empty();
+  $("#kirokuIn").innerHTML ="<div><img src ='../img/"+ mon +"'></div>"+"<p>今日の記録は完了しました<br>明日も待ってるね！</p>";
+ });
+ //----- 審査結果 -----//
+ $("#q2").click(function(){
+  var k = this.val();
+  if(k == "達成"){
+    var con = y;
+    $("#kirokuIn").$empty();
+    $("#kirokuIn").innerHTML ="<div><img src ='../img/"+ con +"'></div>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p>";
+  } else{ 
+    var con = n;
+    $("#kirokuIn").$empty();
+    $("#kirokuIn").innerHTML ="<div><img src ='../img/"+ con +"'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p>";
+  }
+ });
+});
