@@ -28,7 +28,7 @@ h1{
 }
 .h_input{
   position: absolute;
-  margin-top: 115%;
+  /* margin-top: 115%; */
   right: 10px;
 }
 .h_input1{
