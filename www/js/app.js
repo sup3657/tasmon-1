@@ -220,7 +220,7 @@ function judData(results){
       //審査回数別に分ける
       if(kikan<=10){
         if(perday >= 50 && num == 1){
-          sinsa(perday);
+          sinsa(perday, name);
           
         } else{
           kiroku();
@@ -228,14 +228,14 @@ function judData(results){
       }
       else if(kikan<=21){
         if((perday >= 30 && num == 2) || (perday >=70 && num == 1)){
-          sinsa(perday);
+          sinsa(perday, name);
         } else{
           kiroku();
         }
       }
       else{
         if((perday >= 30 && num == 3) || (perday >=60 && num == 2) || (perday >=90 && num == 1)){
-          sinsa(perday);
+          sinsa(perday, name);
         } else{
           kiroku();
         }
@@ -275,13 +275,19 @@ function judData(results){
 
 //----- 記録後の調子変化 -----//
 function inputT(){
-  var a = $("#q1").val();
-  if(a >= 3){
-    mon = 0;
-  } else{
-    mon = 1;
-  }
-  $("#kirokuIn").innerHTML ="<div><p>今日の記録は完了しました<br>明日も待ってるね！</p>";
+ var saveData = ncmb.DataStore("SaveData");
+ console.log(name);
+ saveData.equalTo("taskname", name)
+         .fetchAll()
+         .then(function(results) {
+          console.log(results.length);
+          var eday = object.get("days");
+          eday = eday++;
+          results.set("day", eday);
+          return results.update();
+          console.log("記録数を追加しました");
+          });
+ $("#kirokuIn").innerHTML ="<div><p>今日の記録は完了しました<br>明日も待ってるね！</p>";
  };
  //----- 審査結果 -----//
  $("#q2").click(function(){
