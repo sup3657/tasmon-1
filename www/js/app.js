@@ -109,7 +109,7 @@ function checkForm(){
     var saveData = ncmb.DataStore("SaveData");
         
     //データを降順で取得する
-    saveData.order("createDate")
+    saveData.order("createDate",true)
             .limit(5)
             .fetchAll()
             .then(function(results){
@@ -175,7 +175,7 @@ function checkDate(){
     var saveData = ncmb.DataStore("SaveData");
 
     //タスクのデータを取得する
-    saveData.order("createDate")
+    saveData.order("createDate",true)
             .limit(5)
             .fetchAll()
             .then(function(results){
@@ -280,7 +280,7 @@ function Input(i){
  var saveData = ncmb.DataStore("SaveData");
 
  //タスクのデータを取得する
- saveData.order("createDate")
+ saveData.order("createDate",true)
          .fetchAll()
          .then(function(results){
          //テーブルにデータをセット
@@ -339,7 +339,7 @@ function Input(i){
   
         function sinsa(perday, i){
           head = "運命の審査日";
-          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='kekka("+i+");' value='達成'><input type='button' id='q2' name='q2' onclick='kekka("+i+");' value='未達成'></p>"
+          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q3' name='q2' onclick='Bad("+i+");' value='未達成'></p>"
         };
         })
         .catch(function(error){
@@ -353,31 +353,31 @@ function Input(i){
 function inputT(i){
  var saveData = ncmb.DataStore("SaveData"); 
 
- saveData.order("createDate")
+ saveData.order("createDate",true)
          .fetchAll()
          .then(function(saveData){
           var object = saveData[i];
           var eday = object.get("days");
           //数値に変換
           eday = Number(eday);
-          eday = eday++;
-          object.setIncrement("days", eday);
+          eday = eday + 1;
+          object.setIncrement("days", 1);
           return object.update();
-          console.log("記録数を追加しました");
-          });
- $("#oneTable").innerHTML ="<div><p>今日の記録は完了しました<br>明日も待ってるね！</p>";
+          })
+          .then(function(){
+           console.log("記録数を追加しました");
+           $("#oneTable").empty();
+           $("#oneTable").append("<div><p>今日の記録は完了しました<br>明日も待ってるね！</p>");
+          })
  };
- //----- 審査結果 -----//
-function kekka(i){
-  var val = $(this).attr("id");
-  console.log(val);
-  if(val == "達成"){
+ //----- 審査結果(達成) -----//
+function Good(i){
     var saveData = ncmb.DataStore("SaveData");
     var pri;
     var eday;
     var elevel;
     var esinsa;
-    saveData.order("createDate")
+    saveData.order("createDate",true)
          .fetchAll()
          .then(function(results){
           var object = results[i];
@@ -392,25 +392,32 @@ function kekka(i){
           elevel = Number(elevel);
           esinsa = Number(esinsa);
 
-          eday = eday++;
-          elevel = elevel++;
-          esinsa = --esinsa;
-          object.setIncrement("days", eday);
-          object.setIncrement("level", elevel);
-          object.setIncrement("sinsa", esinsa);
+          eday++;
+          elevel++;
+          esinsa--;
+
+          object.setIncrement("days", 1);
+          object.setIncrement("level", 1);
+          object.setIncrement("sinsa", -1);
           return object.update();
+          })
+          .then(function(){
           console.log("記録数を追加しました");
           console.log("レベルがアップしました");
           console.log("審査日が一つ減りました");
-          });
-    $("#oneTable").innerHTML ="<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p>";
-  } else{ 
+          $("#oneTable").empty();
+          $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p>");
+          })
+  };
+
+ //----- 審査結果(未達成) -----//  
+  function Bad(i){ 
     var saveData = ncmb.DataStore("SaveData");
     var pri;
     var eday;
     var elevel;
     var esinsa;
-    saveData.order("createDate")
+    saveData.order("createDate",true)
          .fetchAll()
          .then(function(results){
           var object = results[i];
@@ -425,17 +432,19 @@ function kekka(i){
           elevel = Number(elevel);
           esinsa = Number(esinsa);
 
-          eday = eday++;
-          esinsa = esinsa--;
-          object.setIncrement("days", eday);
-          object.setIncrement("sinsa", esinsa);
+          eday++;
+          esinsa--;
+          object.setIncrement("days", 1);
+          object.setIncrement("sinsa", -1);
           return object.update();
+          })
+          .then(function(){
           console.log("記録数を追加しました");
           console.log("審査日が一つ減りました");
-          });
-    $("#oneTable").innerHTML ="<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p>";
-  }
- };
+          $("#oneTable").empty();
+          $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p>");
+          })
+  };
 
 /* =============================================================================
             <コレクション>完了タスクデータの取得
@@ -447,7 +456,7 @@ function completeTask(){
     var completed = ncmb.DataStore("Completed");
         
     //データを降順で取得する
-    completed.order("createDate")
+    completed.order("createDate",true)
             .fetchAll()
             .then(function(results){
                 //全件検索に成功した場合の処理
