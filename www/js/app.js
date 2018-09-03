@@ -1,3 +1,14 @@
+////////////////////////////////////////
+/*プレビュー画面で正しく表示させるため*/
+////////////////////////////////////////
+
+// function onDeviceReady() {
+//     alert("読み込まれました");
+// }
+// var event = typeof cordova === 'undefined' ? 
+//                               'DOMContentLoaded' : 'deviceready';
+// document.addEventListener(event, onDeviceReady, false);
+
 //APIキーの設定とSDKの初期化
 var appKey    = "50a945c15520b92f21cf848ec99938676e5987bef7d8ab7f18b5cf9f78542210";
 var clientKey = "5995c27f953fa4fe7ee74fa1f35a343c2c6fdab7c74acb2a1da83cdcc71047a8";
@@ -242,20 +253,8 @@ function judData(results){
           kiroku();
         }
       }
-
-     if(i==0){
-          url = "one";
-      } else if(i==1){
-          url = "two";
-      } else if(i==2){
-          url = "three";
-      } else if(i==3){
-          url = "four";
-      } else if(i==4){
-          url = "five";
-      } 
-                
-      $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4><p>"+head+"</p><a href='"+ url + ".html' onclick = 'Input("+i+");' >記録する</a></div>");
+        
+      $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4><p>"+head+"</p><a href='input.html' onclick = 'Input("+i+");' >記録する</a></div>");
     }
 
   function kiroku(){
@@ -330,7 +329,7 @@ function Input(i){
             }
           }
                                 
-        $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4>"+"<p>"+head+"</p>"+ choice+"</div>");
+        $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4>"+"<p>"+head+"</p>"+ choice+"<p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p></div>");
        
         function kiroku(i){
           head = "今日のタスクの達成度はどれくらい？";
@@ -445,6 +444,63 @@ function Good(i){
           $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p>");
           })
   };
+
+ //----- タスクが終わった -----//
+ function didTask(i){
+   var saveData = ncmb.DataStore("SaveData");
+    var cpri;
+    var name;
+    var cday;
+    var cDate;
+    var clevel;
+    saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+          var object = results[i];
+          cpri = object.get("priority");
+          name = object.get("taskname");
+          cday = object.get("days");
+          cDate = object.get("createDate");
+          clevel = object.get("level");
+
+          //数値に変換
+          cpri = Number(cpri);
+          cday = Number(cday);
+          clevel = Number(clevel);
+
+          //タスク作成から今日までの日数をだす
+          var today = new Date();
+          var setdate = new Date(cDate);
+	        var diff = today.getTime() - setdate.getTime();
+	        var kikan = Math.floor(diff / (1000 * 60 * 60 *24));
+          kikan++;
+          kikan = Math.round(kikan/2);
+          kikan = Number(kikan);
+
+          if(kikan <= cday){
+            clevel++;
+          }
+
+        //mBaaSに保存先クラスの作成
+        var Completed = ncmb.DataStore("Completed");
+        //インスタンスの生成
+        var completed = new Completed();
+            
+        //インスタンスにデータをセットする
+        completed.set("taskname", name)
+                .set("priority", cpri)
+                .set("level", clevel)
+                .save()
+
+        object.delete();
+
+        })
+        .then(function(){
+          console.log("コレクションに追加しました");
+          $("#oneTable").empty();
+          $("#oneTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'></div>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><a href='index.html' onclick='checkDate();'>OK</a>");
+          })
+ }
 
 /* =============================================================================
             <コレクション>完了タスクデータの取得
