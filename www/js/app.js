@@ -232,7 +232,10 @@ function judData(results){
        perday = Math.round(perday);  //今日までに何%進捗があればいいか
 
       //審査回数別に分ける
-      if(kikan<=10){
+      if(perday>=100){
+            final();
+      }
+      else if(kikan<=10){
         if(perday >= 50 && num == 1){
           sinsa();
         } else{
@@ -264,6 +267,10 @@ function judData(results){
   function sinsa(){
    head = "運命の審査日";
   };
+
+ function final(i){
+   head = "タスクの締切日です";
+  }; 
 }
 
 /* =============================================================================
@@ -307,7 +314,10 @@ function Input(i){
           perday = Math.round(perday);  //今日までに何%進捗があればいいか
 
         //審査回数別に分ける
-          if(kikan<=10){
+          if(perday>=100){
+            final(i);
+          }
+          else if(kikan<=10){
             if(perday >= 50 && num == 1){
             sinsa(perday, i);
             } else{
@@ -329,17 +339,23 @@ function Input(i){
             }
           }
                                 
-        $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4>"+"<p>"+head+"</p>"+ choice+"<p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p></div>");
+        $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4>"+"<p>"+head+"</p>"+ choice+"</div>");
        
         function kiroku(i){
           head = "今日のタスクの達成度はどれくらい？";
-          choice = "<p><input type='button' id='"+i+"' name='q1' value='1' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='2' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='3' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='4' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='5' onclick=inputT("+i+");></p>"
+          choice = "<p><input type='button' id='"+i+"' name='q1' value='1' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='2' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='3' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='4' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='5' onclick=inputT("+i+");></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
         };
   
         function sinsa(perday, i){
           head = "運命の審査日";
-          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q3' name='q2' onclick='Bad("+i+");' value='未達成'></p>"
+          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q3' name='q2' onclick='Bad("+i+");' value='未達成'></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
         };
+
+        function final(i){
+          head = "タスクの締切日です";
+          choice ="<p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'><input type='button' id='comp' onclick='didnotTask("+i+");' value='終わらなかった'></p>"
+        }; 
+
         })
         .catch(function(error){
         //全件検索に失敗した場合の処理
@@ -499,6 +515,22 @@ function Good(i){
           console.log("コレクションに追加しました");
           $("#oneTable").empty();
           $("#oneTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'></div>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><a href='index.html' onclick='checkDate();'>OK</a>");
+          })
+ }
+
+ //----- タスクが終わらなかった -----//
+ function didnotTask(i){
+    var saveData = ncmb.DataStore("SaveData");
+    saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+          var object = results[i];
+          object.delete();
+          })
+         .then(function(){
+          console.log("タスクを削除しました");
+          $("#oneTable").empty();
+          $("#oneTable").append("<div><p>残念・・・<br>あなたのタスモンはいなくなってしまいました</p><a href='index.html' onclick='checkDate();'>OK</a>");
           })
  }
 
