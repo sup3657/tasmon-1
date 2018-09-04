@@ -82,7 +82,7 @@ function sendForm() {
                 .then(function(results){
                     //保存に成功した場合の処理
                     console.log("タスク送信ができました");
-                    location.href="#Birth01Page";
+                    Birth(priority);
                 })
                 .catch(function(error){
                     //保存に失敗した場合の処理
@@ -92,21 +92,48 @@ function sendForm() {
     };
 }
 
+//------ タマゴ誕生 -----//
+function Birth(priority){
+ var pri = priority;
+ $("#formTable").empty();
+ $("#formTable").append("<p>準備中・・・</p><p>何かのタマゴが産み落とされたようです</p><a href='' onclick='newmon("+pri+");'><img src='../img/tamago.png' width='200px' height='auto' alt='たまご'></a>")
+}
+
 //------ タスモン誕生 ------//
-function newmon(priority){
+function newmon(pri){
+  alert("タスモンが誕生しました");
+
  var monname;
 
- if( priority == 1 ){    
+ if( pri == 1 ){    
     monname = "ボルボックス";
   }
-  else if( priority == 2 ){     
+  else if( pri == 2 ){     
     monname = "マルマックス";
   }
-  else if( priority == 3 ){     
+  else if( pri == 3 ){     
     monname = "サクサックス";
   }
 
- $("#moname").innerHTML = monname;
+  //インスタンスの生成
+ var saveData = ncmb.DataStore("SaveData");
+
+ //タスクのデータを取得する
+ saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+         //テーブルにデータをセット
+
+          var object = results[0];
+          var name = object.get("taskname");
+          var year     = object.get("limit").slice(0,4);      //YYYYを取り出す
+          var month    = object.get("limit").slice(5,7);      //MMを取り出す
+          var day      = object.get("limit").slice(8,10);     //DDを取り出す  
+          var lim = year + "." + month + "." + day ;
+
+          $("#formTable").empty();
+          $("#formTable").append("<p>新しいタスモンが誕生しました！</p><p>"+monname+"</p><img src='../img/nor_mon/tasmon"+pri+"-1.svg' alt='"+monname+"'><p>タスク名: "+name+"</p><p>期限: "+lim+"</p><input type='button' value='OK' onclick='window.location.reload();'>");
+         })
 }
 
 

@@ -10,22 +10,18 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="../js/cssua.min.js"></script>
         <script src="../js/app.js"></script>
-        <script src="../js/script.js"></script>
         <title>tasmon|タスク入力</title>
     </head>
-
 <body>
 
 <main>
 <!--タスク入力画面-->
   <div data-role="page" id="FormPage" data-theme="t" align="left">
-    <form method="post" class="form">
       <header>
       <h1>タスク入力</h1>
-      <a href="../index.html">＜</a>
       </header>
 
-      <section data-role="content">
+      <section data-role="content" id="formTable">
             <div id="form_txt">
             <p>タスク名：<input type ="text" id="form_name"></p>
             </div>
@@ -62,7 +58,7 @@
             </div> 
 
             <!--送信ボタン-->
-            <input type="button" name="sdbtn" onclick="sendForm();" value="完了" data-theme="e">
+            <input type="button" name="sdbtn" onclick="sendForm();" value="完了">
       </section>
 
       <!-- フッター -->
@@ -75,58 +71,7 @@
        <li><a href="../collection/index.html" onclick="completeTask();"><img src="../img/buttom/bt_5.png" alt="コレクション"></a></li>
       </ul>
       </div>
-
-    </form>
   </div>
-
-<!-- 誕生中 -->
-<div data-role="page" id="Birth01Page" data-theme="t" align="left">
-  <header>
-  <h1>タスク入力</h1>
-  </header>
-
- <p>準備中・・・<p>
- <p>何かのタマゴが産み落とされたようです</p>
- <a href="#Birth02Page" onclick="birth();"><img src="../img/tamago.png" width="200px" height="auto" alt="たまご"></a>
-
- <!-- フッター -->
- <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
- </div>
-</div>
-
-<!-- 誕生 -->
-<div data-role="page" id="Birth02Page" data-theme="t" align="left">
-  <header>
-  <h1>タスク入力</h1>
-  </header>
-
- <div>
-   <p>新しいタスモンが誕生しました！</p>
- </div>
- <div id="moname"></div>
- <img src="" alt=>
- <a href="#Birth03Page">OK</a>
-
- <!-- フッター -->
- <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
-
- </div>
-</div>
-
-<!-- タスク紹介 -->
-<div data-role="page" id="Birth03Page" data-theme="t" align="left">
-  <header>
-  <h1>タスク入力</h1>
-  </header>
-
-  <div id="mondetail"></div>
-  <a href="../index.html">閉じる</a>
-
- <!-- フッター -->
- <div data-role="footer" data-position="fixed" data-theme="e" id="foot" class="tab_area clearfix">
-  </div>
-</div>
-
 </main>
 </body>
 </html>
