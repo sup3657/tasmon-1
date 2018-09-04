@@ -148,7 +148,6 @@ function checkForm(){
         
     //データを降順で取得する
     saveData.order("createDate",true)
-            .limit(5)
             .fetchAll()
             .then(function(results){
                 //全件検索に成功した場合の処理
@@ -188,7 +187,7 @@ function setData(results) {
 	          var last = Math.floor(diff / (1000 * 60 * 60 *24));
             last++;
 
-            var txt = "<div><p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p></div>";
+            var txt = "<div><p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p><p><input type='button' id='comp' onclick='ididTask("+i+");' value='終わった'></p></div>";
 
             $("#formTable").append(txt);
         }
@@ -202,294 +201,8 @@ function setData(results) {
 };
 
 
-/* =============================================================================
-            <日々記録>データを検索し、分岐表示
-==============================================================================*/
-
-function checkDate(){
-    $("#judgeTable").empty();
-
-    //インスタンスの生成
-    var saveData = ncmb.DataStore("SaveData");
-
-    //タスクのデータを取得する
-    saveData.order("createDate",true)
-            .limit(5)
-            .fetchAll()
-            .then(function(results){
-                //全件検索に成功した場合の処理
-                console.log("全件検索に成功しました："+results.length+"件");
-                //テーブルにデータをセット
-                judData(results);
-            })
-            .catch(function(error){
-                //全件検索に失敗した場合の処理
-                alert("全件検索に失敗しました：\n" + error);
-                console.log("全件検索に失敗しました：\n" + error);
-            });
-    
-};
-
-//テーブルに審査または日々記録を表示させる
-  var url;
-  
-function judData(results){
-  var head;
-    
-    //審査日か日々記録かを判別する
-    for( i=0; i<results.length; i++) {
-      var object = results[i];
-      var name = object.get("taskname");
-      var kikan = object.get("kikan");
-      var num = object.get("sinsa");
-      var limit = object.get("limit");
-      var createDate = object.get("createDate");
-      var pri = object.get("priority");
-      var lev = object.get("level");
-
-      //今日が期限日までどのくらいの位置にいるか
-      kikan = Number(kikan);
-      var setdate = new Date(createDate);
-      var today = new Date();
-      var Diff = today.getTime() - setdate.getTime();
-	    var judday = Math.floor(Diff / (1000 * 60 * 60 *24));
-      judday++;   //記入日から何日経過したのか
-      
-      var perday = judday/kikan*100;  
-       perday = Math.round(perday);  //今日までに何%進捗があればいいか
-
-      //審査回数別に分ける
-      if(perday>=100){
-            final();
-      }
-      else if(kikan<=10){
-        if(perday >= 50 && num == 1){
-          sinsa();
-        } else{
-          kiroku();
-        }
-      }
-      else if(kikan<=21){
-        if((perday >= 30 && num == 2) || (perday >=70 && num == 1)){
-          sinsa();
-        } else{
-          kiroku();
-        }
-      }
-      else{
-        if((perday >= 30 && num == 3) || (perday >=60 && num == 2) || (perday >=90 && num == 1)){
-          sinsa();
-        } else{
-          kiroku();
-        }
-      }
-        
-      $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4><p>"+head+"</p><a href='input.html' onclick = 'Input("+i+");' >記録する</a></div>");
-    }
-
-  function kiroku(){
-   head = "今日のタスクの達成度はどれくらい？";
-  };
-  
-  function sinsa(){
-   head = "運命の審査日";
-  };
-
- function final(i){
-   head = "タスクの締切日です";
-  }; 
-}
-
-/* =============================================================================
-            <日々記録>記録ページ
-==============================================================================*/
-
-function Input(i){
-//  console.log(i);
-
- $("#oneTable").empty();
-
- //インスタンスの生成
- var saveData = ncmb.DataStore("SaveData");
-
- //タスクのデータを取得する
- saveData.order("createDate",true)
-         .fetchAll()
-         .then(function(results){
-         //テーブルにデータをセット
-          var head;
-          var choice;
-    
-          var object = results[i];
-          var name = object.get("taskname");
-          var kikan = object.get("kikan");
-          var num = object.get("sinsa");
-          var limit = object.get("limit");
-          var createDate = object.get("createDate");
-          var pri = object.get("priority");
-          var lev = object.get("level");
-
-        //今日が期限日までどのくらいの位置にいるか
-          kikan = Number(kikan);
-          var setdate = new Date(createDate);
-          var today = new Date();
-          var Diff = today.getTime() - setdate.getTime();
-          var judday = Math.floor(Diff / (1000 * 60 * 60 *24));
-          judday++;   //記入日から何日経過したのか
-      
-          var perday = judday/kikan*100;  
-          perday = Math.round(perday);  //今日までに何%進捗があればいいか
-
-        //審査回数別に分ける
-          if(perday>=100){
-            final(i);
-          }
-          else if(kikan<=10){
-            if(perday >= 50 && num == 1){
-            sinsa(perday, i);
-            } else{
-            kiroku(i);
-            }
-          }
-          else if(kikan<=21){
-            if((perday >= 30 && num == 2) || (perday >=70 && num == 1)){
-            sinsa(perday, i);
-            } else{
-            kiroku(i);
-            }
-          }
-          else{
-            if((perday >= 30 && num == 3) || (perday >=60 && num == 2) || (perday >=90 && num == 1)){
-            sinsa(perday, i);
-            } else{
-            kiroku(i);
-            }
-          }
-                                
-        $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'>"+"<h4>" + name + "</h4>"+"<p>"+head+"</p>"+ choice+"</div>");
-       
-        function kiroku(i){
-          head = "今日のタスクの達成度はどれくらい？";
-          choice = "<p><input type='button' id='"+i+"' name='q1' value='1' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='2' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='3' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='4' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='5' onclick=inputT("+i+");></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
-        };
-  
-        function sinsa(perday, i){
-          head = "運命の審査日";
-          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q3' name='q2' onclick='Bad("+i+");' value='未達成'></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
-        };
-
-        function final(i){
-          head = "タスクの締切日です";
-          choice ="<p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'><input type='button' id='comp' onclick='didnotTask("+i+");' value='終わらなかった'></p>"
-        }; 
-
-        })
-        .catch(function(error){
-        //全件検索に失敗した場合の処理
-        alert("全件検索に失敗しました：\n" + error);
-        console.log("全件検索に失敗しました：\n" + error);
-        });
-};
-
-//----- 記録後の調子変化 -----//
-function inputT(i){
- var saveData = ncmb.DataStore("SaveData"); 
-
- saveData.order("createDate",true)
-         .fetchAll()
-         .then(function(saveData){
-          var object = saveData[i];
-          var eday = object.get("days");
-          //数値に変換
-          eday = Number(eday);
-          eday = eday + 1;
-          object.setIncrement("days", 1);
-          return object.update();
-          })
-          .then(function(){
-           console.log("記録数を追加しました");
-           $("#oneTable").empty();
-           $("#oneTable").append("<div><p>今日の記録は完了しました<br>明日も待ってるね！</p>");
-          })
- };
- //----- 審査結果(達成) -----//
-function Good(i){
-    var saveData = ncmb.DataStore("SaveData");
-    var pri;
-    var eday;
-    var elevel;
-    var esinsa;
-    saveData.order("createDate",true)
-         .fetchAll()
-         .then(function(results){
-          var object = results[i];
-          pri = object.get("priority");
-          eday = object.get("days");
-          elevel = object.get("level");
-          esinsa = object.get("sinsa");
-
-          //数値に変換
-          pri = Number(pri);
-          eday = Number(eday);
-          elevel = Number(elevel);
-          esinsa = Number(esinsa);
-
-          eday++;
-          elevel++;
-          esinsa--;
-
-          object.setIncrement("days", 1);
-          object.setIncrement("level", 1);
-          object.setIncrement("sinsa", -1);
-          return object.update();
-          })
-          .then(function(){
-          console.log("記録数を追加しました");
-          console.log("レベルがアップしました");
-          console.log("審査日が一つ減りました");
-          $("#oneTable").empty();
-          $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p>");
-          })
-  };
-
- //----- 審査結果(未達成) -----//  
-  function Bad(i){ 
-    var saveData = ncmb.DataStore("SaveData");
-    var pri;
-    var eday;
-    var elevel;
-    var esinsa;
-    saveData.order("createDate",true)
-         .fetchAll()
-         .then(function(results){
-          var object = results[i];
-          pri = object.get("priority");
-          eday = object.get("days");
-          elevel = object.get("level");
-          esinsa = object.get("sinsa");
-
-          //数値に変換
-          pri = Number(pri);
-          eday = Number(eday);
-          elevel = Number(elevel);
-          esinsa = Number(esinsa);
-
-          eday++;
-          esinsa--;
-          object.setIncrement("days", 1);
-          object.setIncrement("sinsa", -1);
-          return object.update();
-          })
-          .then(function(){
-          console.log("記録数を追加しました");
-          console.log("審査日が一つ減りました");
-          $("#oneTable").empty();
-          $("#oneTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p>");
-          })
-  };
-
  //----- タスクが終わった -----//
- function didTask(i){
+ function ididTask(i){
    var saveData = ncmb.DataStore("SaveData");
     var cpri;
     var name;
@@ -540,8 +253,310 @@ function Good(i){
         })
         .then(function(){
           console.log("コレクションに追加しました");
-          $("#oneTable").empty();
-          $("#oneTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'></div>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><a href='index.html' onclick='checkDate();'>OK</a>");
+          num++;
+          $("#formTable").empty();
+          $("#formTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><p><a href='' onclick='checkForm();'>タスク一覧に戻る</a></p></div>");
+          })
+ }
+
+/* =============================================================================
+            <日々記録>データを検索し、分岐表示
+==============================================================================*/
+
+var num = 0;
+
+function checkDate(){
+    //インスタンスの生成
+    var saveData = ncmb.DataStore("SaveData");
+
+    //タスクのデータを取得する
+    saveData.fetchAll()
+            .then(function(results){
+              var tasks=0;
+              for(var i=0; i<results.length; i++) {
+                var object = results[i];
+                var kk = object.get("days");
+
+                var day = object.get("updateDate");
+                var sd = new Date(day);
+                var syear = sd.getFullYear();    //年
+                var smonth = sd.getMonth() + 1;  //月
+                var sday = sd.getDate();         //日
+                var sday = syear + smonth + sday;
+
+                var td = new Date();
+                var tyear = td.getFullYear();    //年
+                var tmonth = td.getMonth() + 1;  //月
+                var tday = td.getDate();         //日
+                var tday = tyear + tmonth + tday;
+
+                if(sday != tday){
+                  tasks++;
+                } 
+                else if(kk == 0){
+                  tasks++;
+                }
+              }
+              if(tasks == 0){
+                $("#judgeTable").empty();
+                $("#judgeTable").append("<div><p>今日の記録は完了しました<br>明日も待ってるね！</p>");
+              } else{
+                  Input();
+              }
+            })
+    }
+
+
+/* =============================================================================
+            <日々記録>記録ページ
+==============================================================================*/
+
+function Input(){
+var i = num;
+ $("#judgeTable").empty();
+
+ //インスタンスの生成
+ var saveData = ncmb.DataStore("SaveData");
+
+ //タスクのデータを取得する
+ saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+         //テーブルにデータをセット
+          var head;
+          var choice;
+          console.log(i);
+
+          var object = results[i];
+          var name = object.get("taskname");
+          var kikan = object.get("kikan");
+          var num = object.get("sinsa");
+          var limit = object.get("limit");
+          var createDate = object.get("createDate");
+          var pri = object.get("priority");
+          var lev = object.get("level");
+
+        //今日が期限日までどのくらいの位置にいるか
+          kikan = Number(kikan);
+          var setdate = new Date(createDate);
+          var today = new Date();
+          var Diff = today.getTime() - setdate.getTime();
+          var judday = Math.floor(Diff / (1000 * 60 * 60 *24));
+          judday++;   //記入日から何日経過したのか
+      
+          var perday = judday/kikan*100;  
+          perday = Math.round(perday);  //今日までに何%進捗があればいいか
+
+        //審査回数別に分ける
+          if(perday>=100){
+            final();
+          }
+          else if(kikan<=10){
+            if(perday >= 50 && num == 1){
+            sinsa(perday);
+            } else{
+            kiroku();
+            }
+          }
+          else if(kikan<=21){
+            if((perday >= 30 && num == 2) || (perday >=70 && num == 1)){
+            sinsa(perday);
+            } else{
+            kiroku();
+            }
+          }
+          else{
+            if((perday >= 30 && num == 3) || (perday >=60 && num == 2) || (perday >=90 && num == 1)){
+            sinsa(perday);
+            } else{
+            kiroku();
+            }
+          }
+                                
+        $("#judgeTable").append("<h4>" + name + "</h4><div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'><p>"+head+"</p>"+ choice+"</div>");
+       
+        function kiroku(){
+          head = "今日のタスクの達成度はどれくらい？";
+          choice = "<p><input type='button' id='"+i+"' name='q1' value='1' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='2' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='3' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='4' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='5' onclick=inputT("+i+");></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
+        };
+  
+        function sinsa(perday){
+          head = "運命の審査日";
+          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q3' name='q2' onclick='Bad("+i+");' value='未達成'></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
+        };
+
+        function final(){
+          head = "タスクの締切日です";
+          choice ="<p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'><input type='button' id='comp' onclick='didnotTask("+i+");' value='終わらなかった'></p>"
+        };
+
+        })
+        .catch(function(error){
+        //全件検索に失敗した場合の処理
+        alert("全件検索に失敗しました：\n" + error);
+        console.log("全件検索に失敗しました：\n" + error);
+        });
+};
+
+//----- 記録後の調子変化 -----//
+function inputT(i){
+ var saveData = ncmb.DataStore("SaveData"); 
+ var pri;
+ var lev;
+
+ saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(saveData){
+          var object = saveData[num];
+          pri = object.get("priority");
+          lev = object.get("level");
+          var eday = object.get("days");
+          //数値に変換
+          eday = Number(eday);
+          eday = eday + 1;
+          object.setIncrement("days", 1);
+          return object.update();
+          })
+          .then(function(){
+           console.log("記録数を追加しました");
+           num++;
+           $("#judgeTable").empty();
+           $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'><p>記録が完了しました！明日も待ってるよ！</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          })
+ };
+ //----- 審査結果(達成) -----//
+function Good(i){
+    var saveData = ncmb.DataStore("SaveData");
+    var pri;
+    var eday;
+    var elevel;
+    var esinsa;
+    saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+          var object = results[num];
+          pri = object.get("priority");
+          eday = object.get("days");
+          elevel = object.get("level");
+          esinsa = object.get("sinsa");
+
+          //数値に変換
+          pri = Number(pri);
+          eday = Number(eday);
+          elevel = Number(elevel);
+          esinsa = Number(esinsa);
+
+          eday++;
+          elevel++;
+          esinsa--;
+
+          object.setIncrement("days", 1);
+          object.setIncrement("level", 1);
+          object.setIncrement("sinsa", -1);
+          return object.update();
+          })
+          .then(function(){
+          console.log("記録数を追加しました");
+          console.log("レベルがアップしました");
+          console.log("審査日が一つ減りました");
+          num++;
+          $("#judgeTable").empty();
+          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          })
+  };
+
+ //----- 審査結果(未達成) -----//  
+  function Bad(i){ 
+    var saveData = ncmb.DataStore("SaveData");
+    var pri;
+    var eday;
+    var elevel;
+    var esinsa;
+    saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+          var object = results[num];
+          pri = object.get("priority");
+          eday = object.get("days");
+          elevel = object.get("level");
+          esinsa = object.get("sinsa");
+
+          //数値に変換
+          pri = Number(pri);
+          eday = Number(eday);
+          elevel = Number(elevel);
+          esinsa = Number(esinsa);
+
+          eday++;
+          esinsa--;
+          object.setIncrement("days", 1);
+          object.setIncrement("sinsa", -1);
+          return object.update();
+          })
+          .then(function(){
+          console.log("記録数を追加しました");
+          console.log("審査日が一つ減りました");
+          num++;
+          $("#judgeTable").empty();
+          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          })
+  };
+
+ //----- タスクが終わった -----//
+ function didTask(i){
+   var saveData = ncmb.DataStore("SaveData");
+    var cpri;
+    var name;
+    var cday;
+    var cDate;
+    var clevel;
+    saveData.order("createDate",true)
+         .fetchAll()
+         .then(function(results){
+          var object = results[num];
+          cpri = object.get("priority");
+          name = object.get("taskname");
+          cday = object.get("days");
+          cDate = object.get("createDate");
+          clevel = object.get("level");
+
+          //数値に変換
+          cpri = Number(cpri);
+          cday = Number(cday);
+          clevel = Number(clevel);
+
+          //タスク作成から今日までの日数をだす
+          var today = new Date();
+          var setdate = new Date(cDate);
+	        var diff = today.getTime() - setdate.getTime();
+	        var kikan = Math.floor(diff / (1000 * 60 * 60 *24));
+          kikan++;
+          kikan = Math.round(kikan/2);
+          kikan = Number(kikan);
+
+          if(kikan <= cday){
+            clevel++;
+          }
+
+        //mBaaSに保存先クラスの作成
+        var Completed = ncmb.DataStore("Completed");
+        //インスタンスの生成
+        var completed = new Completed();
+            
+        //インスタンスにデータをセットする
+        completed.set("taskname", name)
+                .set("priority", cpri)
+                .set("level", clevel)
+                .save()
+
+        object.delete();
+
+        })
+        .then(function(){
+          console.log("コレクションに追加しました");
+          num++;
+          $("#judgeTable").empty();
+          $("#judgeTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
           })
  }
 
@@ -556,8 +571,9 @@ function Good(i){
           })
          .then(function(){
           console.log("タスクを削除しました");
-          $("#oneTable").empty();
-          $("#oneTable").append("<div><p>残念・・・<br>あなたのタスモンはいなくなってしまいました</p><a href='index.html' onclick='checkDate();'>OK</a>");
+          num++;
+          $("#judgeTable").empty();
+          $("#judgeTable").append("<div><p>残念・・・<br>あなたのタスモンはいなくなってしまいました</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
           })
  }
 
