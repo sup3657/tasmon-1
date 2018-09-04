@@ -136,7 +136,7 @@ function newmon(pri){
             <タスク一覧>データを一覧で表示する
 ==============================================================================*/
 function checkForm(){
-    $("#formTable").empty();
+    $("#ichiTable").empty();
         
     //インスタンスの生成
     var saveData = ncmb.DataStore("SaveData");
@@ -184,7 +184,7 @@ function setData(results) {
 
             var txt = "<div><p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p><p><input type='button' id='comp' onclick='ididTask("+i+");' value='終わった'></p></div>";
 
-            $("#formTable").append(txt);
+            $("#ichiTable").append(txt);
         }
         
     //セットするデータが無かった場合
@@ -196,7 +196,7 @@ function setData(results) {
 };
 
 
- //----- タスクが終わった -----//
+ //----- タスク一覧からタスク終わり -----//
  function ididTask(i){
    var saveData = ncmb.DataStore("SaveData");
     var cpri;
@@ -249,8 +249,8 @@ function setData(results) {
         .then(function(){
           console.log("コレクションに追加しました");
           num++;
-          $("#formTable").empty();
-          $("#formTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><p><a href='' onclick='checkForm();'>タスク一覧に戻る</a></p></div>");
+          $("#ichiTable").empty();
+          $("#ichiTable").append("<div class='icom'><img class='monn' src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは<br>昇天しました！</p><p><a class='next' href='' onclick='checkForm();'>タスク一覧に戻る</a></p></div>");
           })
  }
 
@@ -320,7 +320,6 @@ var i = num;
          //テーブルにデータをセット
           var head;
           var choice;
-          console.log(i);
 
           var object = results[i];
           var name = object.get("taskname");
@@ -368,11 +367,11 @@ var i = num;
             }
           }
                                 
-        $("#judgeTable").append("<h4>" + name + "</h4><div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'><p>"+head+"</p>"+ choice+"</div>");
+        $("#judgeTable").append("<h4>" + name + "</h4><div><img class='monn' src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'></div><p>"+head+"</p>"+ choice);
        
         function kiroku(){
           head = "今日のタスクの達成度はどれくらい？";
-          choice = "<p><input type='button' id='"+i+"' name='q1' value='1' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='2' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='3' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='4' onclick=inputT("+i+");><input type='button' id='"+i+"' name='q1' value='5' onclick=inputT("+i+");></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
+          choice = "<p class='choices'><input type='button' id='"+i+"' class='btn3' name='q1' value='' onclick=inputT("+i+");><input type='button' id='"+i+"' class='btn2' name='q1' value='' onclick=inputT("+i+");><input type='button' id='"+i+"' class='btn1' name='q1' value='' onclick=inputT("+i+");><input type='button' id='"+i+"' class='btn2' name='q1' value='' onclick=inputT("+i+");><input type='button' id='"+i+"' class='btn3' name='q1' value='' onclick=inputT("+i+");></p><p class='sml'><small class='s1'>◀︎できなかった</small><small class='s2'>どちらでもない</small><small class='s3'>よくできた▶︎</small></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
         };
   
         function sinsa(perday){
@@ -416,7 +415,7 @@ function inputT(i){
            console.log("記録数を追加しました");
            num++;
            $("#judgeTable").empty();
-           $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'><p>記録が完了しました！明日も待ってるよ！</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+           $("#judgeTable").append("<div><img class='monn' src ='../img/nor_mon/tasmon"+ pri + "-" + lev +".svg'><p>記録が完了しました！<br>明日も待ってるよ！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
  };
  //----- 審査結果(達成) -----//
@@ -456,7 +455,7 @@ function Good(i){
           console.log("審査日が一つ減りました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
   };
 
@@ -493,7 +492,7 @@ function Good(i){
           console.log("審査日が一つ減りました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
   };
 
@@ -551,7 +550,7 @@ function Good(i){
           console.log("コレクションに追加しました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          $("#judgeTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
  }
 
@@ -568,7 +567,7 @@ function Good(i){
           console.log("タスクを削除しました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><p>残念・・・<br>あなたのタスモンはいなくなってしまいました</p><p><a href='' onclick='checkDate()'>次のタスクを記録する</a></p></div>");
+          $("#judgeTable").append("<div><p>残念・・・<br>あなたのタスモンはいなくなってしまいました</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
  }
 

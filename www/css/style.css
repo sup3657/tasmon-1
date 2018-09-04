@@ -13,6 +13,22 @@ a{
     box-shadow: inset 0 0 2px rgba(128, 128, 128, 0.1);
     transform: translateY(2px);
 }
+input{
+-webkit-appearance: none;
+}
+
+/*-------------------
+ボタン共通スタイル指定
+--------------------*/
+input#comp,
+a.next{
+  margin: 15px auto;
+  padding: 8px 20%;
+  color: #200456;
+  border: solid 2px #200456;
+  border-radius: 60px;
+
+}
 
 /*----------
 ヘッダー部分
@@ -116,14 +132,33 @@ margin: 200px 0px 0px 60px;
 #ichiran{
 background-color: #FFF;
 }
-#formTable div{
+#ichiTable div{
   margin: 20px 0;
   border: solid 3px  #200456;
   background-color:#8177af;
 }
-#formTable div p{
+#ichiTable div p{
 color: #200456;
 font-weight: bold;
+text-align: center;
+font-size: 15px;
+}
+#ichiTable div.icom{
+width:60%;
+height: 80%;
+padding: 1em 1em;
+margin: 10px auto;
+border: double 10px #200456;
+background-color: #FFF;
+}
+#ichiTable div.icom p{
+font-weight: lighter;
+}
+#ichiTable img.monn{
+  display: block;
+  width:100%;
+  height: auto;
+  margin: 0 auto;
 }
 
 /*----------
@@ -135,19 +170,19 @@ font-weight: bold;
 日々記録
 ---------*/
 #judgeTable div{
+width:60%;
 padding: 0.5em 1em;
-margin: 10px 0;
+margin: 10px auto;
 border: double 10px #200456;
 background-color: #FFF;
 }
-
 #judgeTable h4{
 color: #200456;
 font-weight: bold;
 font-size: 20px;
 text-align: center;
+margin: 0.3em auto; 
 }
-
 #judgeTable p{
 color: #200456;
 text-align: center;
@@ -155,6 +190,58 @@ font-weight: lighter;
 font-size: 15px;
 }
 
+#judgeTable img.monn{
+  display: block;
+  height:180px;
+  width: auto;
+  margin: 0 auto;
+}
+
+#judgeTable .choices input{
+  border-radius: 50%;
+  margin-right:10px;
+  margin-left:10px;
+  border: solid 3px #200456;
+}
+#judgeTable .choices input:active{
+  background-color: #200456;
+}
+#judgeTable .choices{
+  margin: 15px auto 5px;
+}
+#judgeTable .choices input.btn3{
+  height: 50px;
+  width: 50px;
+}
+#judgeTable .choices input.btn2{
+  position: relative;
+  bottom: 5px;
+  height: 40px;
+  width: 40px;
+}
+#judgeTable .choices input.btn1{
+  position: relative;
+  bottom: 10px;
+  height: 30px;
+  width: 30px;
+}
+#judgeTable .sml{
+  margin: 0 0 10px 0;
+  text-align: center;
+   font-size: 0.7em;
+   color: #200456;
+}
+#judgeTable .sml .s1{
+  position: relative;
+  right: 60px;
+}
+#judgeTable .sml .s2{
+  text-align: center;
+}
+#judgeTable .sml .s3{
+  position: relative;
+  left: 60px;
+}
 
 /*--------
 コレクション
