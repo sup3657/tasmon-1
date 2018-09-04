@@ -2,12 +2,7 @@
 /*プレビュー画面で正しく表示させるため*/
 ////////////////////////////////////////
 
-// function onDeviceReady() {
-//     alert("読み込まれました");
-// }
-// var event = typeof cordova === 'undefined' ? 
-//                               'DOMContentLoaded' : 'deviceready';
-// document.addEventListener(event, onDeviceReady, false);
+document.addEventListener("deviceready", function() { alert("DeviceReady"); } , false );
 
 //APIキーの設定とSDKの初期化
 var appKey    = "50a945c15520b92f21cf848ec99938676e5987bef7d8ab7f18b5cf9f78542210";
@@ -54,7 +49,7 @@ function sendForm() {
     //var dateandtime = date+" "+time;   
     var limit = date+" "+time;    
     //Date型に変換
-    //var limit = new Date(limit);
+    //var limit = new Date(year, (mon - 1), day, 23, 59, 0);
 
     //入力規則およびデータをフィールドにセットする
     if(taskname == ""){
@@ -180,7 +175,7 @@ function setData(results) {
             var jstDate  = year + "." + month + "." + day ;
 
             //期限までの日数を算出する
-            var date = object.get("limit");
+            var date = object.get("limit").slice(0,10);
             var today = new Date();
             var setdate = new Date(date);
 	          var diff = setdate.getTime() - today.getTime();
