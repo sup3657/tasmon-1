@@ -15,7 +15,7 @@
 .ui-mobile fieldset, .ui-page { padding: 0; margin: 0; }
 .ui-mobile a img, .ui-mobile fieldset { border-width: 0; }
 /* responsive page widths */
-.ui-mobile-viewport { margin: 0; overflow-x: visible; -webkit-text-size-adjust: 100%; -ms-text-size-adjust:none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+.ui-mobile-viewport { margin: 0; overflow-x: visible; -webkit-text-size-adjust: 100%; -ms-text-size-adjust:none;  }
 /* Issue #2066 */
 body.ui-mobile-viewport,
 div.ui-mobile-viewport { overflow-x: hidden; }
@@ -1389,7 +1389,7 @@ label.ui-submit { font-size: 16px; line-height: 1.4; font-weight: normal; margin
 @media all and (min-width: 28em){
 	.ui-field-contain, .ui-mobile fieldset.ui-field-contain { border-width: 0; padding: 0; margin: 1em 0; }
 }
-.ui-select { display: block; position: relative; }
+.ui-select { display: block; position: relative; width:75%; display: inline-block;}
 .ui-select select { position: absolute; left: -9999px; top: -9999px; }
 .ui-select .ui-btn { opacity: 1; }
 .ui-field-contain .ui-select .ui-btn { margin: 0; }
@@ -1436,10 +1436,10 @@ label.ui-input-text { font-size: 16px; line-height: 1.4; display: block; font-we
 input.ui-input-text, textarea.ui-input-text { background-image: none; padding: .4em; margin: .5em 0; min-height: 1.4em; line-height: 1.4em; font-size: 16px; display: block; width: 100%; outline: 0; }
 input.ui-mini, .ui-mini input, textarea.ui-mini { font-size: 14px; }
 div.ui-input-text input.ui-input-text, div.ui-input-text textarea.ui-input-text,
-.ui-input-search input.ui-input-text { border: none; width: 100%; padding: .4em 0; margin: 0; display: block; background: transparent none; outline: 0 !important; }
-.ui-input-search, div.ui-input-text { margin: .5em 0; background-image: none; position: relative; }
+.ui-input-search input.ui-input-text { border: none; text-align: center; width: 100%; padding: .4em 0; margin: 0; display: block; background: transparent none; outline: 0 !important; }
+.ui-input-search, div.ui-input-text { margin: .5em 0; background-image: none; }
 .ui-input-search { padding: 0 30px; }
-div.ui-input-text { padding: 0 .4em; }
+div.ui-input-text { padding: 0 .4em; width: 75%; margin: 0; display: inline-block; }
 div.ui-input-has-clear { padding: 0 30px 0 .4em; }
 input.ui-input-text.ui-mini, textarea.ui-input-text.ui-mini,
 .ui-input-search.ui-mini, div.ui-input-text.ui-mini { margin: .25em 0; }

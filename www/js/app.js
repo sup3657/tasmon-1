@@ -90,8 +90,8 @@ function sendForm() {
 //------ タマゴ誕生 -----//
 function Birth(priority){
  var pri = priority;
- $("#formTable").empty();
- $("#formTable").append("<p>準備中・・・</p><p>何かのタマゴが産み落とされたようです</p><a href='' onclick='newmon("+pri+");'><img src='../img/tamago.png' width='200px' height='auto' alt='たまご'></a>")
+ $("#FormTable").empty();
+ $("#FormTable").append("<div id='step1'><h4>準備中・・・</h4><p>何かのタマゴが<br>産み落とされたようです</p><a href='' onclick='newmon("+pri+");'><img src='../img/tamago.png' width='230px' height='auto' alt='たまご'></a></div>")
 }
 
 //------ タスモン誕生 ------//
@@ -126,8 +126,8 @@ function newmon(pri){
           var day      = object.get("limit").slice(8,10);     //DDを取り出す  
           var lim = year + "." + month + "." + day ;
 
-          $("#formTable").empty();
-          $("#formTable").append("<p>新しいタスモンが誕生しました！</p><p>"+monname+"</p><img src='../img/nor_mon/tasmon"+pri+"-1.svg' alt='"+monname+"'><p>タスク名: "+name+"</p><p>期限: "+lim+"</p><input type='button' value='OK' onclick='window.location.reload();'>");
+          $("#FormTable").empty();
+          $("#FormTable").append("<div id='step2'><span class='balloon1'><p>新しいタスモンが誕生しました！</p></span><p>"+monname+"</p><img src='../img/nor_mon/tasmon"+pri+"-1.svg' alt='"+monname+"'><div class='details'><p>タスク名: "+name+"</p><p>期限: "+lim+"</p></div><input type='button' value='OK' onclick='window.location.reload();'></div>");
          })
 }
 
@@ -163,6 +163,11 @@ function setData(results) {
         for(var i=0; i<results.length; i++) {
             var object = results[i];
 
+            var pri = object.get("priority");
+            var lev = object.get("level");
+            var kikan = object.get("kikan");
+            var createDate = object.get("createDate");
+
             var year     = object.get("limit").slice(0,4);      //YYYYを取り出す
             var month    = object.get("limit").slice(5,7);      //MMを取り出す
             var day      = object.get("limit").slice(8,10);     //DDを取り出す            
@@ -182,77 +187,33 @@ function setData(results) {
 	          var last = Math.floor(diff / (1000 * 60 * 60 *24));
             last++;
 
-            var txt = "<div><p>残り" + last + "日" + "</p><p>" + object.get("taskname") +"</p><p>" + "期限:" + jstDate + "</p><p>" +object.get("priority")+"</p><p><input type='button' id='comp' onclick='ididTask("+i+");' value='終わった'></p></div>";
+            //今日が期限日までどのくらいの位置にいるか
+          kikan = Number(kikan);
+          var setdate = new Date(createDate);
+          var today = new Date();
+          var Diff = today.getTime() - setdate.getTime();
+          var judday = Math.floor(Diff / (1000 * 60 * 60 *24));
+          judday++;   //記入日から何日経過したのか
+          var perday = judday/kikan*100;  
+          perday = Math.round(perday);  //今日までに何%進捗があればいいか
+
+          if(perday >=100){
+            perday==100;
+          }
+
+            var txt = "<div><div class='lastdays'><img src='../img/nor_mon/tasmon"+pri+"-"+lev+".svg'><div class='graph'><span class='bar' style='width: "+perday+"%;'></span></div><p>残り <span>" + last + " 日</span>" + "</p></div><p class='title'>" + object.get("taskname") +"</p><p class='dueto'>" + "期限:" + jstDate + "</p></div>";
 
             $("#ichiTable").append(txt);
         }
         
     //セットするデータが無かった場合
     if(results.length == 0){
-        var table = document.getElementById("formTable");
-        formTable.innerHTML = "<br>" + "<center>" + "データはありません" + "</center>" + "<br>";   
+        var table = document.getElementById("FormTable");
+        FormTable.innerHTML = "<br>" + "<center>" + "データはありません" + "</center>" + "<br>";   
     }
     $.mobile.changePage('#ListUpPage');
 };
 
-
- //----- タスク一覧からタスク終わり -----//
- function ididTask(i){
-   var saveData = ncmb.DataStore("SaveData");
-    var cpri;
-    var name;
-    var cday;
-    var cDate;
-    var clevel;
-    saveData.order("createDate",true)
-         .fetchAll()
-         .then(function(results){
-          var object = results[i];
-          cpri = object.get("priority");
-          name = object.get("taskname");
-          cday = object.get("days");
-          cDate = object.get("createDate");
-          clevel = object.get("level");
-
-          //数値に変換
-          cpri = Number(cpri);
-          cday = Number(cday);
-          clevel = Number(clevel);
-
-          //タスク作成から今日までの日数をだす
-          var today = new Date();
-          var setdate = new Date(cDate);
-	        var diff = today.getTime() - setdate.getTime();
-	        var kikan = Math.floor(diff / (1000 * 60 * 60 *24));
-          kikan++;
-          kikan = Math.round(kikan/2);
-          kikan = Number(kikan);
-
-          if(kikan <= cday){
-            clevel++;
-          }
-
-        //mBaaSに保存先クラスの作成
-        var Completed = ncmb.DataStore("Completed");
-        //インスタンスの生成
-        var completed = new Completed();
-            
-        //インスタンスにデータをセットする
-        completed.set("taskname", name)
-                .set("priority", cpri)
-                .set("level", clevel)
-                .save()
-
-        object.delete();
-
-        })
-        .then(function(){
-          console.log("コレクションに追加しました");
-          num++;
-          $("#ichiTable").empty();
-          $("#ichiTable").append("<div class='icom'><img class='monn' src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは<br>昇天しました！</p><p><a class='next' href='' onclick='checkForm();'>タスク一覧に戻る</a></p></div>");
-          })
- }
 
 /* =============================================================================
             <日々記録>データを検索し、分岐表示
@@ -455,7 +416,7 @@ function Good(i){
           console.log("審査日が一つ減りました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
+          $("#judgeTable").append("<div><img class='monn' src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'>"+"<p>進行度はバッチリ！<br>タスモンは立派に成長しました！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
   };
 
@@ -492,7 +453,7 @@ function Good(i){
           console.log("審査日が一つ減りました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><img src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
+          $("#judgeTable").append("<div><img class='monn' src ='../img/nor_mon/tasmon"+ pri + "-" + elevel +".svg'></div>"+"<p>進行度はイマイチ・・・<br>まだまだタスモンは成長できないみたい。</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
   };
 
@@ -550,7 +511,7 @@ function Good(i){
           console.log("コレクションに追加しました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><img src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは昇天しました！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
+          $("#judgeTable").append("<div><img class='monn' src ='../img/com_mon/tasmon"+ cpri + "-" + clevel +".png'>"+"<p>タスク完了おめでとう！<br>あなたのタスモンは<br>昇天しました！</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
  }
 
@@ -567,7 +528,7 @@ function Good(i){
           console.log("タスクを削除しました");
           num++;
           $("#judgeTable").empty();
-          $("#judgeTable").append("<div><p>残念・・・<br>あなたのタスモンはいなくなってしまいました</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
+          $("#judgeTable").append("<div><p>残念・・・<br>あなたのタスモンは<br>いなくなってしまいました</p><p><a class='next' href='' onclick='checkDate()'>次のタスクへ</a></p></div>");
           })
  }
 

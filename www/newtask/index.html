@@ -21,16 +21,16 @@
       <h1>タスク入力</h1>
       </header>
 
-      <section data-role="content" id="formTable">
-            <div id="form_txt">
+      <section data-role="content" id="FormTable">
+            <div id="form_box">
             <p>タスク名：<input type ="text" id="form_name"></p>
             </div>
 
-            <div id="form_txt">
+            <div id="form_box">
             <p>期限日：<input type ="date" id="form_date"></p>
             </div>
 
-            <div id="form_txt">
+            <div id="form_box">
             <p>重要度：<select id="form_priority">
                        <option value="" selected>--選択--</option>
                        <option value="1">1</option>
@@ -58,7 +58,9 @@
             </div> 
 
             <!--送信ボタン-->
-            <input type="button" name="sdbtn" onclick="sendForm();" value="完了">
+            <div id="Tbtn">
+            <input type="button" name="sub" onclick="sendForm();" value="完了">
+            </div>
       </section>
 
       <!-- フッター -->
