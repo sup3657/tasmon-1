@@ -96,7 +96,6 @@ function Birth(priority){
 
 //------ タスモン誕生 ------//
 function newmon(pri){
-  alert("タスモンが誕生しました");
 
  var monname;
 
@@ -127,7 +126,7 @@ function newmon(pri){
           var lim = year + "." + month + "." + day ;
 
           $("#FormTable").empty();
-          $("#FormTable").append("<div id='step2'><span class='balloon1'><p>新しいタスモンが誕生しました！</p></span><p>"+monname+"</p><img src='../img/nor_mon/tasmon"+pri+"-1.svg' alt='"+monname+"'><div class='details'><p>タスク名: "+name+"</p><p>期限: "+lim+"</p></div><input type='button' value='OK' onclick='window.location.reload();'></div>");
+          $("#FormTable").append("<div id='step2'><span class='balloon1'><p>新しいタスモンが誕生しました！</p></span><p class='moname'>"+monname+"</p><img src='../img/nor_mon/tasmon"+pri+"-1.svg' alt='"+monname+"'><div class='details'><p><span class='tt'>タスク名 :   </span>"+name+"</p><p><span class='tt'>期限 :   </span>"+lim+"</p></div><input type='button' value='OK' onclick='window.location.reload();'></div>");
          })
 }
 
@@ -337,7 +336,7 @@ var i = num;
   
         function sinsa(perday){
           head = "運命の審査日";
-          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q3' name='q2' onclick='Bad("+i+");' value='未達成'></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
+          choice = "<p>"+perday+"%</p>"+"<P><input type='button' id='q2' name='q2' onclick='Good("+i+");' value='達成'><input type='button' id='q2' name='q2' onclick='Bad("+i+");' value='未達成'></p><p><input type='button' id='comp' onclick='didTask("+i+");' value='終わった'></p>"
         };
 
         function final(){
@@ -535,14 +534,32 @@ function Good(i){
 /* =============================================================================
             <コレクション>完了タスクデータの取得
 ==============================================================================*/
+var colnum=1;
+
+function bcBtn(){
+     if(colnum==1){
+        colnum=3;
+    }else{
+        colnum--;
+    }
+    completeTask();
+};
+function ntBtn(){
+     if(colnum==3){
+        colnum=1;
+    }else{
+        colnum++;
+    }
+    completeTask();
+};
+
 function completeTask(){
-    $("#collTable").empty();
         
     //インスタンスの生成
     var completed = ncmb.DataStore("Completed");
         
     //データを降順で取得する
-    completed.order("createDate",true)
+    completed.equalTo("priority",colnum)
             .fetchAll()
             .then(function(results){
                 //全件検索に成功した場合の処理
@@ -558,27 +575,48 @@ function completeTask(){
 }
 //テーブルにデータをセットする処理
 function setcoll(results) {
+    var num1 = 0;
+    var num2 = 0;
+    var num3 = 0;
+    var num4 = 0;
     //操作するテーブルへの参照を取得
         for(i=0; i<results.length; i++) {
             var object = results[i];
-
-            var year     = object.get("createDate").slice(0,4);      //YYYYを取り出す
-            var month    = object.get("createDate").slice(5,7);      //MMを取り出す
-            var day      = object.get("createDate").slice(8,10);     //DDを取り出す           
-
-            var jstDate  = year + "年" + month + "月" + day + "日" ;
-
-            var pri = object.get("priority");
             var lev = object.get("level");
-                
-            var text = "<div><img src ='../img/com_mon/tasmon"+ pri + "-" + lev +".png'><p>" + object.get("taskname") +"</p><p>" + "タスク完了日:" + jstDate + "</p></div>";
 
-            $("#collTable").append(text);
+            if(lev==1){
+              num1++;
+            } else if(lev==2){
+              num2++;
+            } else if(lev==3){
+              num3++;
+            } else if(lev==4){
+              num4++;
+            }
         }
+   $("#collTable img").attr("src", "../img/secret.png");
+   $("#collTable p.col_name").empty();
+   
+   if(num1!=0){
+     $("#mon1 img").attr("src", "../img/com_mon/tasmon"+colnum+"-1.png");
+     $("#mon1 p.col_name").text("×"+num1);
+   };
+   if(num2!=0){
+     $("#mon2 img").attr("src", "../img/com_mon/tasmon"+colnum+"-2.png");
+     $("#mon2 p.col_name").text("×"+num2);
+   };
+   if(num3!=0){
+     $("#mon3 img").attr("src", "../img/com_mon/tasmon"+colnum+"-3.png");
+     $("#mon3 p.col_name").text("×"+num3);  
+   };
+   if(num4!=0){
+     $("#mon4 img").attr("src", "../img/com_mon/tasmon"+colnum+"-4.png");
+     $("#mon4 p.col_name").text("×"+num4);          
+   };  
         
     //セットするデータが無かった場合
     if(results.length == 0){
         $("#collTable").innerHTML = "<br>" + "<center>" + "データはありません" + "</center>" + "<br>";   
     }
-    $.mobile.changePage('#ListUpPage');
-}
+    // $.mobile.changePage('#ListUpPage');
+    }
